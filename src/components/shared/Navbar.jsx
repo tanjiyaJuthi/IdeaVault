@@ -87,7 +87,7 @@ const Navbar = () => {
     return (
         <>
             <header className="fixed top-0 left-0 right-0 z-50 h-16 border-outline-variant bg-surface dark:border-outline dark:bg-background bg-linear-to-r from-white to-[#fff4f8] border-b border-gray-100">
-                <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 md:px-8">
+                <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-5 lg:px-0">
 
                     <Link href="/" className="flex items-center gap-3">
 

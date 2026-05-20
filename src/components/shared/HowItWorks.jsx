@@ -39,10 +39,10 @@ const howItWorksData = [
 const HowItWorks = () => {
   
   return (
-    <section className=" px-5 lg:px-0 py-20 bg-linear-to-r from-white to-[#fff4f8] font-inter">
+    <section className="px-5 lg:px-0 my-20 font-inter">
       <div className="mx-auto max-w-7xl ">
         <div className="text-center mb-10">
-            <h2 className="text-5xl font-noto-sans font-bold text-gray-900">
+            <h2 className="text-4xl lg:text-5xl font-noto-sans font-bold text-gray-900">
                 We want you to know how it works!
             </h2>
 

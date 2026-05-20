@@ -1,4 +1,5 @@
 import RelatedIdeas from "@/components/Idea/RelatedIdeas";
+import BrandMarquee from "@/components/shared/BrandMarque";
 import BusinessSolution from "@/components/shared/BusinessSolution";
 import HeroSlider from "@/components/shared/HeroSlider";
 import HowItWorks from "@/components/shared/HowItWorks";
@@ -11,6 +12,7 @@ export default function Home() {
       <BusinessSolution />
       {/* <Trending /> */}
       {/* <RelatedIdeas /> */}
+      <BrandMarquee />
       <HowItWorks />
     </div>
   );

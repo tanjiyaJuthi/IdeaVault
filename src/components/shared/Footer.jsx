@@ -18,12 +18,12 @@ import { GiEternalLove } from "react-icons/gi";
 
 const Footer = () => {
   return (
-    <footer className="w-full relative antialiased font-sans mt-32 overflow-hidden">
+    <footer className="w-full relative antialiased font-sans overflow-hidden">
 
       {/* ========================= */}
       {/* TOP CTA SECTION */}
       {/* ========================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mb-68">
+      <div className="max-w-7xl mx-auto px-5 lg:px-0 relative z-20 -mb-68">
 
         <div className="relative bg-[#810B38] rounded-lg px-8 py-14 md:px-16 md:py-20 overflow-hidden shadow-2xl">
 
@@ -94,7 +94,7 @@ const Footer = () => {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#810B38]/20 rounded-full blur-3xl" />
 
         {/* FOOTER CONTENT */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 max-w-7xl mx-auto px-5 lg:px-0">
 
           {/* GRID */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">

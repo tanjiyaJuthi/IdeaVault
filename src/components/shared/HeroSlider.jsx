@@ -64,8 +64,8 @@ const HeroSlider = () => {
                         <div className="relative w-full h-full">
 
                             <Image
-                                src={slide.image}
-                                alt={slide.title}
+                                src={slide.image || "../../../public/fallback.jpg"}
+                                alt={slide.title || "Idea Title"}
                                 fill
                                 className="object-cover"
                                 priority
