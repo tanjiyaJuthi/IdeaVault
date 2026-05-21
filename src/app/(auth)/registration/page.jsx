@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,9 @@ import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 
 const Registration = () => {
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/";
+
   const [showPassword, setShowPassword] = useState(false);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
 
@@ -71,6 +75,25 @@ const Registration = () => {
   const router = useRouter();
 
   const onSubmit = async (data) => {
+    const errors = [];
+
+    if (data.password.length < 6) {
+      errors.push("At least 6 characters");
+    }
+
+    if (!/[A-Z]/.test(data.password)) {
+      errors.push("One uppercase letter");
+    }
+
+    if (!/[a-z]/.test(data.password)) {
+      errors.push("One lowercase letter");
+    }
+
+    if (errors.length > 0) {
+      toast.error(`Password must include: ${errors.join(", ")}`);
+      return;
+    }
+    
     try {
       const { data: result, error } = await authClient.signUp.email({
         name: data.fullName,
@@ -89,7 +112,7 @@ const Registration = () => {
         return;
       }else {
         toast.success("Registration successful");
-        router.push("/login");
+        router.push(redirect);
       }      
     } catch (err) {
       console.error(err);
@@ -230,17 +253,24 @@ const Registration = () => {
                 minLength={8} 
                 isRequired
                 validate={(value) => {
-                    if (value.length < 8) {
-                        return "Password must be at least 8 characters";
-                    }
-                    if (!/[A-Z]/.test(value)) {
-                        return "Password must contain at least one uppercase letter";
-                    }
-                    if (!/[0-9]/.test(value)) {
-                        return "Password must contain at least one number";
+                    const errors = [];
+
+                    if (value.length < 6) {
+                      errors.push("At least 6 characters");
                     }
 
-                    return null;
+                    if (!/[A-Z]/.test(value)) {
+                      errors.push("One uppercase letter");
+                    }
+
+                    if (!/[a-z]/.test(value)) {
+                      errors.push("One lowercase letter");
+                    }
+
+                    if (errors.length > 0) {
+                      toast.error(`Password must include: ${errors.join(", ")}`);
+                      return false;
+                    }
                 }}
                 render={({ field }) => (
                   <FormItem>

@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,9 @@ import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 
 const Login = () => {
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/";
+
   const [email, setEmail] = useState("");
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -55,15 +59,13 @@ const Login = () => {
       const { data, error } = await authClient.signIn.email({
         email: userData.email,
         password: userData.password,
-        rememberMe: true,
-        callbackURL: "/",
       });
 
       if (error) {
         toast.error(error.message);
       }else {
         toast.success("Login successful");
-        router.push("/");
+        router.push(redirect);
       }
     
     } finally {
@@ -149,69 +151,73 @@ const Login = () => {
             </div>
 
             <Form {...form}>
-  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
 
-    {/* EMAIL */}
-    <FormField
-      control={form.control}
-      name="email"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel className="text-xs font-semibold tracking-wider text-[#574145] block uppercase">
-            Email
-          </FormLabel>
+                {/* EMAIL */}
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-semibold tracking-wider text-[#574145] block uppercase">
+                        Email
+                      </FormLabel>
 
-          <FormControl>
-            <Input
-              {...field}
-              type="email"
-              className="w-full border border-[#8a7175] h-12 px-6 py-3 rounded focus:ring-0 outline-none bg-[#f9f9f9] transition-all text-base text-stone-900"
-            />
-          </FormControl>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="email"
+                          className="w-full border border-[#8a7175] h-12 px-6 py-3 rounded focus:ring-0 outline-none bg-[#f9f9f9] transition-all text-base text-stone-900"
+                        />
+                      </FormControl>
 
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-    <FormField
-      control={form.control}
-      name="password"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel className="text-xs font-semibold tracking-wider text-[#574145] block uppercase">
-            Password
-          </FormLabel>
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-semibold tracking-wider text-[#574145] block uppercase">
+                        Password
+                      </FormLabel>
 
-          <FormControl>
-            <Input
-              {...field}
-              type="password"
-              className="w-full border border-[#8a7175] h-12 px-6 py-3 rounded focus:ring-0 outline-none bg-[#f9f9f9] transition-all text-base text-stone-900"
-            />
-          </FormControl>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="password"
+                          className="w-full border border-[#8a7175] h-12 px-6 py-3 rounded focus:ring-0 outline-none bg-[#f9f9f9] transition-all text-base text-stone-900"
+                        />
+                      </FormControl>
 
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-    <Button
-      disabled={loading}
-      type="submit"
-      className="w-full font-bold h-12 py-3 rounded border transition-all cursor-pointer text-base bg-[#810b38] text-white border-[#810b38] hover:bg-gray-800"
-    >
-      {loading ? (
-        "Logging..."
-      ) : (
-        <>
-          <Check /> Login
-        </>
-      )}
-    </Button>
+                <div className="text-gray-500 text-right">
+                  <Link href="#" className="font-bold">Forgot Password?</Link>
+                </div>
 
-  </form>
-</Form>
+                <Button
+                  disabled={loading}
+                  type="submit"
+                  className="w-full font-bold h-12 py-3 rounded border transition-all cursor-pointer text-base bg-[#810b38] text-white border-[#810b38] hover:bg-gray-800"
+                >
+                  {loading ? (
+                    "Logging..."
+                  ) : (
+                    <>
+                      <Check /> Login
+                    </>
+                  )}
+                </Button>
+
+              </form>
+            </Form>
           </div>
         </div>
       </section>
