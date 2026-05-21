@@ -208,7 +208,7 @@ const Registration = () => {
                       <Input
                         placeholder="alex@company.com"
                         {...field}
-                        className="h-12 rounded-lg border-stone-200 bg-white focus-visible:ring-[#560625]/10 focus-visible:border-[#560625]"
+                        className="h-12 rounded-lg border-stone-200 bg-white focus-visible:ring-[#560625]/10 focus:shadow-none focus-visible:border-[#560625]"
                       />
                     </FormControl>
 

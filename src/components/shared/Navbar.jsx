@@ -52,7 +52,7 @@ const Navbar = () => {
     ...(user
       ? [
           { href: "/add-idea", label: "Add Idea", icon: Users },
-          { href: "/my-ideas", label: "My Idea", icon: CreditCard },
+          { href: "/my-ideas", label: "My Ideas", icon: CreditCard },
           { href: "/my-interactions", label: "My Interactions", icon: Compass },
         ]
       : []),
@@ -149,8 +149,8 @@ const Navbar = () => {
                     href={link.href}
                     className={
                       link.primary
-                        ? "bg-[#810B38] text-white px-4 py-2 rounded-lg text-sm"
-                        : "text-sm hover:text-[#810B38]"
+                        ? "bg-[#810B38] text-white px-4 py-3 rounded-lg text-sm"
+                        : "text-sm hover:text-[#810B38] font-semibold"
                     }
                   >
                     {link.label}
