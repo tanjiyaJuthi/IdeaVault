@@ -43,15 +43,15 @@ const CategoryFilter = () => {
 
   return (
     <Select value={value} onValueChange={handleChange}>
-      <SelectTrigger className="h-full w-[200px] border-0 rounded-none px-3 flex items-center justify-between gap-2 focus:ring-0 focus-visible:ring-0 bg-red">
+      <SelectTrigger className="h-full w-50 border-0 rounded-none px-3 flex items-center justify-between gap-2 focus:ring-0 focus-visible:ring-0 bg-red">
         <SelectValue placeholder="Filter category" />
       </SelectTrigger>
 
-      <SelectContent>
-        <SelectItem value="All">All Categories</SelectItem>
+      <SelectContent className="bg-white!">
+        <SelectItem value="all">All Categories</SelectItem>
 
         {categories.map((cat) => (
-          <SelectItem key={cat} value={cat}>
+          <SelectItem className="bg-white!" key={cat} value={cat}>
             {cat}
           </SelectItem>
         ))}

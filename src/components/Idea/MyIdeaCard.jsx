@@ -3,20 +3,7 @@ import Link from "next/link";
 import { FaCheckCircle } from "react-icons/fa";
 import { SlEye } from "react-icons/sl";
 
-const MyIdeaCard = () => {
-  const idea = {
-    ideaTitle: "AI Resume Builder",
-    shortDescription: "Generate optimized resumes using AI.",
-    detailedDescription:
-      "An AI-powered platform that creates ATS-friendly resumes based on user input and job descriptions.",
-    category: "AI",
-    tags: ["resume", "career", "AI"],
-    imageUrl:
-      "https://images.unsplash.com/photo-1553877522-43269d4ea984",
-    estimatedBudget: 5000,
-    targetAudience: "Job seekers and fresh graduates",
-  };
-
+const MyIdeaCard = ({idea}) => {
   return (
     <div className="card-wrapper">
       <div className="border border-gray-200 p-5 mb-10 bg-white transition-all duration-300 card-hover group flex flex-col lg:flex-row gap-4">

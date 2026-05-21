@@ -15,24 +15,68 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from "@/components/ui/select";
-import Image from "next/image";
+import { authClient } from "@/app/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const AddIdeaPage = () => {
+    const router = useRouter();
+    const [submitError, setSubmitError] = useState("");
+
+
     const form = useForm({
         defaultValues: {
-        fullName: "",
-        image: "",
+            ideaTitle: "",
+            shortDescription: "",
+            category: "",
+            tags: "",
+            imageUrl: "",
+            estimatedBudget: "",
+            problemStatement: "",
+            proposedSolution: "",
+            detailedDescription: "",
+            targetAudience: "",
         },
-        value: {
-            fullName: "",
-            image: "",
-        }
+        mode: "onChange",
     });
 
-    const onSubmit = (data) => {
-        console.log("Form submitted:", data);
-        // TODO: send data to API
-    };
+    const onSubmit = async (data) => {
+        setSubmitError("");
+
+    try {
+        const payload = {
+            ...data,
+            tags: data.tags
+                ? data.tags.split(",").map((t) => t.trim()).filter(Boolean)
+                : [],
+        };
+
+        const { data: tokenData } = await authClient.token();
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/idea`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${tokenData?.token}`,
+            },
+            body: JSON.stringify(payload),
+        });
+
+        const result = await res.json();
+
+        if (!res.ok) {
+            throw new Error(result?.message || "Failed to create idea");
+        }
+
+        router.replace("/my-ideas");
+        router.refresh();
+
+        form.reset();
+    } catch (error) {
+        console.error("Add idea error:", error.message);
+        setSubmitError(error.message || "Something went wrong");
+    }
+};
 
     return (
         <div className="">
@@ -45,6 +89,11 @@ const AddIdeaPage = () => {
             </div>
 
             <div className="mx-auto max-w-7xl p-10 shadow-sm mb-20 rounded-lg">
+                {submitError && (
+                    <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-600">
+                        {submitError}
+                    </div>
+                )}
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -74,20 +123,20 @@ const AddIdeaPage = () => {
 
                             <FormField
                                 control={form.control}
-                                name="shortDescription"
+                                name="targetAudience"
                                 rules={{
-                                    required: "Short Description is required",
+                                    required: "Target Audience is required",
                                     minLength: {
-                                        value: 10,
-                                        message: "Short Description must be at least 10 characters",
+                                        value: 5,
+                                        message: "Target Audience must be at least 5 characters",
                                     },
                                 }}
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Short Description</FormLabel>
+                                        <FormLabel>Target Audience</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    placeholder="Enter Short Description" {...field}
+                                                    placeholder="Enter Target Audience" {...field}
                                                     className="h-12 rounded-lg border-stone-200 bg-white focus-visible:ring-[#560625]/10 focus:shadow-none focus-visible:border-[#560625]"
                                                 />
                                             </FormControl>
@@ -181,12 +230,11 @@ const AddIdeaPage = () => {
                             <FormField
                                 control={form.control}
                                 name="estimatedBudget"
+                                type="number"
                                 rules={{
                                     required: "Estimated Budget is required",
-                                    minLength: {
-                                        value: 3,
-                                        message: "Estimated Budget must be at least 3 characters",
-                                    },
+                                    validate: (v) =>
+                                        v && v.toString().length >= 3 || "Minimum 3 digits required"
                                 }}
                                 render={({ field }) => (
                                     <FormItem>
@@ -255,6 +303,32 @@ const AddIdeaPage = () => {
                                     </FormItem>
                                 )}
                             />
+
+                            <div className="md:col-span-2">
+                                <FormField
+                                control={form.control}
+                                name="shortDescription"
+                                rules={{
+                                    required: "Short Description is required",
+                                    minLength: {
+                                        value: 10,
+                                        message: "Short Description must be at least 10 characters",
+                                    },
+                                }}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Short Description</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Enter Short Description" {...field}
+                                                    className="h-12 rounded-lg border-stone-200 bg-white focus-visible:ring-[#560625]/10 focus:shadow-none focus-visible:border-[#560625]"
+                                                />
+                                            </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            </div>
 
                             <div className="md:col-span-2">
                                 <FormField

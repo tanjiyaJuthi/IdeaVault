@@ -16,10 +16,14 @@ const MyIdeasPage = async () => {
 
   const { token } = await auth.api.getToken({
     headers: await headers(),
-  });
+  }); 
+
+  console.log(token);
+  const parts = token.split(".");
+  console.log("PAYLOAD:", JSON.parse(Buffer.from(parts[1], "base64").toString()));
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/${user?.id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/idea/user/${user?.id}`,
     {
       cache: "no-store",
       headers: {
@@ -42,24 +46,13 @@ const MyIdeasPage = async () => {
         </div>
 
       <div className="max-w-7xl mx-auto mb-20 px-5 lg:px-0">
-
-        {/* HEADER */}
-        <div className="space-y-4">
-          <h2 className="text-4xl">My Ideas</h2>
-
-          <p className="text-gray-500">
-            Manage and track all your created startup ideas
-          </p>
-        </div>
-
-        {/* LIST */}
         <div className="my-bookings-card-container mt-10">
           {ideas?.length > 0 ? (
             ideas.map((idea) => (
               <MyIdeaCard key={idea._id} idea={idea} />
             ))
           ) : (
-            <div className="flex flex-col items-center justify-center py-12 px-6 bg-sky-50 text-center shadow-sm">
+            <div className="flex flex-col items-center justify-center py-12 px-6 bg-[#fff4f8] text-center shadow-sm">
 
               {/* ICON */}
               <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 mb-4">
