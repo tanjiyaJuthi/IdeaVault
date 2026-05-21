@@ -1,12 +1,18 @@
 'use client';
 
-import { LayoutGrid } from "lucide-react";
+import { authClient } from "@/app/lib/auth-client";
+import { useGoogleAuth } from "@/app/lib/helper/utils-client";
+
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
+import { Check, LayoutGrid } from "lucide-react";
 
 import {
   Form,
@@ -16,41 +22,58 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { FcGoogle } from "react-icons/fc";
+import toast from "react-hot-toast";
 
-import { IoArrowForward } from "react-icons/io5";
-
-export default function LoginPage() {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  // Parallax movement for the geometric rings on the right side
   const handleMouseMove = (e) => {
     const x = (e.clientX / window.innerWidth) * 20;
     const y = (e.clientY / window.innerHeight) * 20;
     setMousePos({ x, y });
   };
 
-  // Validates email input matching the original micro-interaction logic
-  const isEmailValid = email.length > 5 && email.includes('@');
-
   const form = useForm({
-  defaultValues: {
-    email: "",
-    password: "",
-  },
-});
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-const onSubmit = (values) => {
-  console.log(values);
-};
+  const { handleGoogleAuth, googleLoading } = useGoogleAuth();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const onSubmit = async (formValues) => {
+  setLoading(true);
+
+  try {
+    const userData = formValues;
+
+      const { data, error } = await authClient.signIn.email({
+        email: userData.email,
+        password: userData.password,
+        rememberMe: true,
+        callbackURL: "/",
+      });
+
+      if (error) {
+        toast.error(error.message);
+      }else {
+        toast.success("Login successful");
+        router.push("/");
+      }
+    
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <main className="min-h-screen flex flex-col md:flex-row bg-white text-[#1a1c1c] overflow-x-hidden">
-      
-      {/* Left Side: Login Form */}
-      <section className="w-full md:w-[45%] flex flex-col items-center justify-center p-4 md:p-16 bg-white z-10 relative">
-        
-        {/* Left Side Geometric Background Ornaments */}
+    <main className="min-h-screen flex flex-col md:flex-row bg-white text-gray-900 overflow-x-hidden">
+      <section className="bg-linear-to-r from-white to-[#fff4f8] w-full md:w-[45%] flex flex-col items-center justify-center p-4 md:p-16 bg-white z-10 relative">
         <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
           <div 
             className="absolute rounded-full border border-white/5 w-64 h-64 -top-20 -left-20 opacity-[0.03]" 
@@ -73,10 +96,7 @@ const onSubmit = (values) => {
           />
         </div>
 
-        {/* Content Container */}
-        <div className="w-full max-w-110">
-          
-          {/* Logo Identity */}
+        <div className="w-full max-w-110 ">
           <Link href="/" className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-white text-[#810B38] flex items-center justify-center bg-linear-to-r from-white to-[#fff4f8]">
               <LayoutGrid className="w-5 h-5" />
@@ -89,7 +109,7 @@ const onSubmit = (values) => {
 
           <div className="space-y-6">
             <div>
-              <h2 className="text-3xl md:text-3xl font-bold tracking-tight text-stone-900 mb-1">
+              <h2 className="text-3xl md:text-3xl font-bold tracking-tight text-stone-900 mb-1 mt-9">
               Login to your account
             </h2>
               <p className="text-base text-[#635c60]">
@@ -100,28 +120,23 @@ const onSubmit = (values) => {
               </p>
             </div>
 
-            {/* Logout Status Banner */}
-            <div className="flex items-center gap-4 bg-[#aef2c1] text-[#0b522e] p-4 rounded-lg border-l-4 border-[#0b522e]">
-              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
-                check_circle
-              </span>
-              <span className="text-sm">You have successfully logged out.</span>
-            </div>
-
-            {/* Social Logins */}
             <div className="space-y-1">
-              <button className="w-full flex items-center justify-center gap-4 border border-[#8a7175] px-6 py-3 rounded hover:border-[#640623] hover:text-[#640623] transition-colors text-base">
-                <svg className="w-5 h-5" viewBox="0 0 24 24">
-                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
-                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
-                  <path d="M5.84 14.09c-.22-.66-.35-1.39-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
-                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
-                </svg>
-                Login with Google
-              </button>
+              <Button
+                onClick={handleGoogleAuth}
+                disabled={googleLoading}
+                type="button"
+                className="w-full flex items-center justify-center gap-4 border border-[#8a7175] h-12 px-6 py-3 rounded hover:border-[#640623] hover:text-[#640623] transition-colors text-base"
+              >
+                {googleLoading ? (
+                "Redirect to google..."
+                ) : (
+                  <>
+                    <FcGoogle /> Login with Google
+                  </>
+                )}
+              </Button>
             </div>
 
-            {/* Separator */}
             <div className="relative py-4">
               <div aria-hidden="true" className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-[#ddbfc3]"></div>
@@ -143,14 +158,14 @@ const onSubmit = (values) => {
       render={({ field }) => (
         <FormItem>
           <FormLabel className="text-xs font-semibold tracking-wider text-[#574145] block uppercase">
-            Email Address
+            Email
           </FormLabel>
 
           <FormControl>
             <Input
               {...field}
               type="email"
-              className="w-full border border-[#8a7175] h-12 px-6 py-3 rounded focus:ring-1 focus:ring-[#810b38] focus:border-[#810b38] outline-none bg-[#f9f9f9] transition-all text-base text-stone-900"
+              className="w-full border border-[#8a7175] h-12 px-6 py-3 rounded focus:ring-0 outline-none bg-[#f9f9f9] transition-all text-base text-stone-900"
             />
           </FormControl>
 
@@ -159,7 +174,6 @@ const onSubmit = (values) => {
       )}
     />
 
-    {/* PASSWORD */}
     <FormField
       control={form.control}
       name="password"
@@ -173,7 +187,7 @@ const onSubmit = (values) => {
             <Input
               {...field}
               type="password"
-              className="w-full border border-[#8a7175] h-12 px-6 py-3 rounded focus:ring-1 focus:ring-[#810b38] focus:border-[#810b38] outline-none bg-[#f9f9f9] transition-all text-base text-stone-900"
+              className="w-full border border-[#8a7175] h-12 px-6 py-3 rounded focus:ring-0 outline-none bg-[#f9f9f9] transition-all text-base text-stone-900"
             />
           </FormControl>
 
@@ -182,12 +196,18 @@ const onSubmit = (values) => {
       )}
     />
 
-    {/* SUBMIT BUTTON (keeps your UI logic style) */}
     <Button
+      disabled={loading}
       type="submit"
       className="w-full font-bold h-12 py-3 rounded border transition-all cursor-pointer text-base bg-[#810b38] text-white border-[#810b38] hover:bg-gray-800"
     >
-      Login
+      {loading ? (
+        "Logging..."
+      ) : (
+        <>
+          <Check /> Login
+        </>
+      )}
     </Button>
 
   </form>
@@ -196,7 +216,6 @@ const onSubmit = (values) => {
         </div>
       </section>
 
-      {/* Right Side: Branded Visual (Parallax Interactive Container) */}
       <section 
         className="hidden md:flex md:w-[55%] relative overflow-hidden bg-[#580626] items-center justify-center"
         onMouseMove={handleMouseMove}
@@ -211,7 +230,7 @@ const onSubmit = (values) => {
           style={{ background: "radial-gradient(circle, rgb(255, 136, 163) 0%, transparent 80%)" }}
         />
         <div 
-          className="absolute rounded-t-[500px] w-100 h-50 bottom-0 right-1/4 opacity-[0.04] rotate-[165deg]" 
+          className="absolute rounded-t-[500px] w-100 h-50 bottom-0 right-1/4 opacity-[0.04] rotate-165" 
           style={{ backgroundColor: "#ffb1c0" }}
         />
         <div 
@@ -256,3 +275,5 @@ const onSubmit = (values) => {
     </main>
   );
 }
+
+export default Login;

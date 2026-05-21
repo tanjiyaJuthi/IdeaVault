@@ -1,3 +1,4 @@
-# [IdeaVault](https://ideonexis.vercel.app/)
+# [IdeaVault](https://github.com/tanjiyaJuthi/IdeaVault)
+## Idea sharing plaform for Startups
 
-## An Ideas sharing platform form Startups
+### Developed by [Tanjiya Zahir Bhuiyan](https://tanjiya.vercel.app/)

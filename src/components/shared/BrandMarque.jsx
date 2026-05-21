@@ -53,7 +53,7 @@ const BrandMarquee = () => {
             {[...logos, ...logos].map((logo, index) => (
               <div key={index} className="flex items-center justify-center">
                 <Image
-                  src={logo.src}
+                  src={logo.src || '/fallback.jpg'}
                   alt={logo.name}
                   width={120}
                   height={40}

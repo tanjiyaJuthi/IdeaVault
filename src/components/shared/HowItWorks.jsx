@@ -55,7 +55,7 @@ const HowItWorks = () => {
             {howItWorksData.map((item) => (
             <Card
                 key={item.id}
-                className="overflow-hidden border-0 !border-0 ring-0 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                className="overflow-hidden border-0 !border-0 ring-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl rounded-lg"
             >
                 <Image
                 src={item.image}

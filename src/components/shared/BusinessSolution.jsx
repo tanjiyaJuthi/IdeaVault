@@ -200,7 +200,6 @@ const ideas = [
 ];
 
 const BusinessSolution = () => {
-  // 1. DYNAMICALLY CALCULATE TOP 3 CATEGORIES
   const topCategories = useMemo(() => {
     const categoryCounts = ideas.reduce((acc, item) => {
       acc[item.category] = (acc[item.category] || 0) + 1;
@@ -212,20 +211,15 @@ const BusinessSolution = () => {
       .slice(0, 3);
   }, []);
 
-  // 2. STATE FOR ACTIVE TAB (Defaults to #1 Top Category)
   const [activeTab, setActiveTab] = useState(topCategories[0]);
 
-  // 3. FETCH AND ALLOCATE DATA
-  // Get all items for the selected category, limit to 3.
   const displayItems = useMemo(() => {
     return ideas.filter((item) => item.category === activeTab).slice(0, 3);
   }, [activeTab]);
 
-  // Primary item goes to the left column, remaining items go to the right stack
   const primaryItem = displayItems[0];
   const secondaryItems = displayItems.slice(1);
 
-  // Background colors array to keep the original design vibrant and distinct
   const bgColors = ["bg-[#D9E9E9]", "bg-[#EFEEE7]", "bg-[#F8EAE2]"];
 
   return (
@@ -255,15 +249,10 @@ const BusinessSolution = () => {
         </nav>
       </header>
 
-      {/* Main Content Grid */}
       <main className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
-        {/* Dynamic Left Column (Primary Item) */}
         {primaryItem && (
           <section className={`${bgColors[0]} rounded-lg p-8 md:p-12 flex flex-col justify-between min-h-125 relative overflow-hidden transition-colors duration-500`}>
-            {/* Visual Mockup Area */}
             <div className="relative w-full mb-8">
-              {/* Search Bar Mockup */}
               <div className="bg-white rounded-xl p-6 w-full md:w-3/4 mx-auto shadow-[0_4px_20px_rgba(0,0,0,0.05)] relative z-10">
                 <div className="flex items-center justify-between border-b pb-4 mb-4">
                   <span className="text-lg text-gray-800">
@@ -281,7 +270,6 @@ const BusinessSolution = () => {
                 </ul>
               </div>
               
-              {/* Success Popup Overlay */}
               <div className="absolute right-0 md:-right-4 bottom-[-40px] bg-white p-6 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.1)] z-20 flex flex-col items-center text-center w-40 transform translate-y-4">
                 <div className="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center mb-2 border border-teal-200">
                   <CheckCircle2 className="text-teal-500 w-6 h-6" />
@@ -290,7 +278,6 @@ const BusinessSolution = () => {
               </div>
             </div>
             
-            {/* Dynamic Text Content */}
             <div className="mt-auto relative z-30">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">{primaryItem.ideaTitle}</h2>
               <p className="text-gray-700 mb-8 max-w-sm leading-relaxed">
@@ -303,10 +290,8 @@ const BusinessSolution = () => {
           </section>
         )}
 
-        {/* Dynamic Right Column Stack (Secondary Items) */}
         <div className="flex flex-col gap-6">
           {secondaryItems.map((item, idx) => {
-            // Assign remaining colors safely
             const cardBgColor = bgColors[(idx + 1) % bgColors.length];
             
             return (
@@ -322,11 +307,10 @@ const BusinessSolution = () => {
                 </div>
                 
                 <div className="flex-1 flex items-center justify-center">
-                  {/* Generic Graphic Placeholder for dynamically mapped items */}
                   <div className="relative w-full aspect-video bg-white/50 rounded-lg flex items-center justify-center shadow-inner border border-white/40 overflow-hidden">
                      <Image
                       fill 
-                      src={item?.imageUrl || "../../../public/fallback.jpg"}
+                      src={item?.imageUrl || '/fallback.jpg'}
                        alt={item?.ideaTitle || "Idea image"}
                       className="w-full h-full object-cover opacity-80 mix-blend-multiply"
                     />

@@ -1,30 +1,7 @@
-import { Noto_Sans, Inter } from "next/font/google";
-import "../globals.css";
-
-const notoSans = Noto_Sans({
-  variable: "--font-noto-sans",
-  subsets: ["latin"],
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-export const metadata = {
-  title: "IdeaVault",
-  description: "Startup Idea Sharing Platform",
-};
-
-export default function RootLayout({ children }) {
+export default function AuthLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${notoSans.variable} ${inter.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">        
-        {children}
-      </body>
-    </html>
-  );
+    <>
+      {children}
+    </>
+  )
 }

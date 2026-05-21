@@ -1,6 +1,12 @@
 'use client';
 
+import { authClient } from "@/app/lib/auth-client";
+import { useGoogleAuth } from "@/app/lib/helper/utils-client";
+
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from 'next/navigation';
+
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -15,9 +21,10 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
-import { LayoutGrid } from "lucide-react";
-import Link from "next/link";
+import { Eye, EyeOff, LayoutGrid } from "lucide-react";
 import { IoArrowForward } from "react-icons/io5";
+import { FcGoogle } from "react-icons/fc";
+import toast from "react-hot-toast";
 
 const Registration = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,8 +35,8 @@ const Registration = () => {
   const form = useForm({
     defaultValues: {
       email: "",
-      firstName: "",
-      lastName: "",
+      fullName: "",
+      image: "",
       password: "",
     },
   });
@@ -59,8 +66,37 @@ const Registration = () => {
     };
   }, []);
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const { handleGoogleAuth, googleLoading } = useGoogleAuth();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const onSubmit = async (data) => {
+    try {
+      const { data: result, error } = await authClient.signUp.email({
+        name: data.fullName,
+        email: data.email,
+        password: data.password,
+        image: data.image,
+      });
+
+      if (error) {
+        if (error.code === "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL") {
+          toast.error("Email already exists");
+        } else {
+          toast.error(error.message || "Registration failed");
+        }
+
+        return;
+      }else {
+        toast.success("Registration successful");
+        router.push("/login");
+      }      
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -98,26 +134,18 @@ const Registration = () => {
             </p>
           </header>
 
-          {/* Social Login */}
           <div className="mb-5">
             <Button
+              onClick={handleGoogleAuth}
+              disabled={googleLoading}
               type="button"
               variant="outline"
               className="w-full h-12 rounded-lg border-stone-200 bg-white hover:bg-stone-100 text-stone-900 font-semibold"
             >
-              <Image
-                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                alt="Google"
-                width={20}
-                height={20}
-                className="mr-2"
-              />
-
-              Continue with Google
+              {googleLoading ? "Redirect to google..." : <><FcGoogle />  Continue with Google</>}
             </Button>
           </div>
 
-          {/* Divider */}
           <div className="relative flex items-center mb-8 ">
             <div className="flex-1 border-t border-stone-200"></div>
 
@@ -128,19 +156,28 @@ const Registration = () => {
             <div className="flex-1 border-t border-stone-200"></div>
           </div>
 
-          {/* Form */}
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-2"
             >
-              {/* Email */}
+              
               <FormField
                 control={form.control}
                 name="email"
+                isReqired
+                validate={(value) => {
+                  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+                      return "Please enter a valid email address";
+                  }
+
+                  return null;
+                }}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs uppercase tracking-[0.12em] text-stone-600 font-medium">
+                    <FormLabel
+                      className="text-xs uppercase tracking-[0.12em] text-stone-600 font-medium"
+                    >
                       Email Address
                     </FormLabel>
 
@@ -159,7 +196,16 @@ const Registration = () => {
 
               <FormField
                 control={form.control}
-                name="name"
+                name="fullName"
+                type="text"
+                isRequired
+                validate={(value) => {
+                    if (value.length < 3) {
+                        return "Name must be at least 3 characters";
+                    }
+
+                    return null;
+                }}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-xs uppercase tracking-[0.12em] text-stone-600 font-medium">
@@ -178,10 +224,24 @@ const Registration = () => {
                 )}
               />
 
-              {/* Password */}
               <FormField
                 control={form.control}
                 name="password"
+                minLength={8} 
+                isRequired
+                validate={(value) => {
+                    if (value.length < 8) {
+                        return "Password must be at least 8 characters";
+                    }
+                    if (!/[A-Z]/.test(value)) {
+                        return "Password must contain at least one uppercase letter";
+                    }
+                    if (!/[0-9]/.test(value)) {
+                        return "Password must contain at least one number";
+                    }
+
+                    return null;
+                }}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-xs uppercase tracking-[0.12em] text-stone-600 font-medium">
@@ -209,9 +269,11 @@ const Registration = () => {
                           className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-[#560625] transition-colors"
                         >
                           <span className="material-symbols-outlined text-[20px]">
-                            {showPassword
-                              ? "visibility_off"
-                              : "visibility"}
+                            {showPassword ? (
+                              <EyeOff className="w-5 h-5" />
+                            ) : (
+                              <Eye className="w-5 h-5" />
+                            )}
                           </span>
                         </button>
                       </div>
@@ -221,7 +283,7 @@ const Registration = () => {
                   </FormItem>
                 )}
               />
-
+              
               <FormField
                 control={form.control}
                 name="image"

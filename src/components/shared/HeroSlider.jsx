@@ -64,7 +64,7 @@ const HeroSlider = () => {
                         <div className="relative w-full h-full">
 
                             <Image
-                                src={slide.image || "../../../public/fallback.jpg"}
+                                src={slide.image || '/fallback.jpg'}
                                 alt={slide.title || "Idea Title"}
                                 fill
                                 className="object-cover"
