@@ -4,7 +4,14 @@ import Image from "next/image";
 import { useState } from "react";
 import ShowComment from "./ShowComment";
 
-const CommentCard = ({ ideaId, comments = [], onAddComment, isOwner }) => {
+const CommentCard = ({ 
+  ideaId, 
+  comments = [], 
+  onAddComment, 
+  currentUser, 
+  onDeleteComment,
+  handleUpdateComment 
+}) => {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -67,7 +74,9 @@ const CommentCard = ({ ideaId, comments = [], onAddComment, isOwner }) => {
               <ShowComment 
                 key={comment._id} 
                 comment={comment} 
-                isOwner={isOwner}
+                currentUser={currentUser}
+                onDeleteComment={onDeleteComment}
+                handleUpdateComment={handleUpdateComment }
               />
             ))
           )}

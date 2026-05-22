@@ -1,55 +1,141 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { FaEdit } from "react-icons/fa";
+import CommentDelete from "./CommentDelete";
+import toast from "react-hot-toast";
+import { authClient } from "@/app/lib/auth-client";
 
-const ShowComment = ({comment, isOwner}) => {
-    const user = String(isOwner.id) === String(comment.userId);;
+const ShowComment = ({
+  comment,
+  currentUser,
+  onDeleteComment,
+  handleUpdateComment,
+}) => {
+  const isOwner =
+    currentUser &&
+    String(currentUser.id) === String(comment.userId);
 
-    return (
-        <div
-            className="grid grid-cols-1 lg:grid-cols-2 justify-end border border-gray-200 rounded-lg p-4 bg-linear-to-r from-white to-[#fff5f9]"
-        >            
-            <div>
-                <div className="flex items-center gap-3 mb-2">
-                    <Image
-                        width={100}
-                        height={100}
-                        src={comment.userImage || "/fallback.jpg"}
-                        alt="user"
-                        className="w-8 h-8 rounded-full"
-                    />
-                    <div>
-                        <p className="text-sm font-medium">{comment.userName || "Anonymus"}</p>
-                        <p className="text-xs text-gray-400">
-                            {new Date(comment.createdAt).toLocaleString()}
-                        </p>
-                    </div>
-                </div>
+  const [isEditing, setIsEditing] = useState(false);
+  const [text, setText] = useState(comment.commentText);
+  const [loading, setLoading] = useState(false);
 
-                <p className="text-gray-700 text-sm">
-                    {comment.commentText}
-                </p>
-            </div>
+  const handleUpdate = async () => {
+    if (!text.trim()) return;
 
-            {user && (
-                <div className="max-w-7xl mx-auto px-5 lg:px-0 flex items-center justify-between pb-5">
-                    <div className="flex items-end gap-3">
-                        <Link
-                            href="#"
-                            className="px-5 py-3 rounded-lg border border-gray-400"
-                        >
-                            <FaEdit />
-                        </Link>
+    try {
+      setLoading(true);
 
-                        {/* <IdeaDelete
-                            ideaId={idea._id}
-                            ideaTitle={idea.ideaTitle}
-                        /> */}
-                    </div>
-                </div>
-            )}
+      const { data: tokenData } = await authClient.token();
+      
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/interaction/${comment._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenData?.token}`,
+          },
+          body: JSON.stringify({
+            commentText: text,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message || "Update failed");
+        return;
+      }
+
+      toast.success("Comment updated");
+
+      handleUpdateComment(comment._id, text);
+      setIsEditing(false);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="relative border border-gray-200 rounded-lg p-4 bg-linear-to-r from-white to-[#fff5f9]">
+
+      {isOwner && (
+        <div className="absolute top-3 right-3 flex gap-2">
+          <button
+            onClick={() => setIsEditing(!isEditing)}
+            className="text-gray-600 hover:text-black"
+          >
+            <FaEdit />
+          </button>
+
+          <CommentDelete
+            commentId={comment._id}
+            commentText={comment.commentText}
+            onSuccess={() => onDeleteComment(comment._id)}
+          />
         </div>
-    );
+      )}
+
+      <div className="flex items-center gap-3 mb-2">
+        <Image
+          width={100}
+          height={100}
+          src={comment.userImage || "/fallback.jpg"}
+          alt="user"
+          className="w-8 h-8 rounded-full"
+        />
+
+        <div>
+          <p className="text-sm font-medium">
+            {comment.userName || "Anonymous"}
+          </p>
+
+          <p className="text-xs text-gray-400">
+            {new Date(comment.createdAt).toLocaleString()}
+          </p>
+        </div>
+      </div>
+
+      {!isEditing ? (
+        <p className="text-gray-700 text-sm">
+          {comment.commentText}
+        </p>
+      ) : (
+        <div className="space-y-2">
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            className="w-full border p-2 rounded-md text-sm focus:ring-1 focus:ring-gray-200"
+          />
+
+          <div className="flex gap-2 justify-end">
+            <button
+              onClick={() => {
+                setIsEditing(false);
+                setText(comment.commentText);
+              }}
+              className="px-3 py-1 text-sm border rounded"
+            >
+              Cancel
+            </button>
+
+            <button
+              onClick={handleUpdate}
+              disabled={loading}
+              className="px-3 py-1 text-sm bg-[#590626] text-white rounded"
+            >
+              {loading ? "Saving..." : "Save"}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default ShowComment;

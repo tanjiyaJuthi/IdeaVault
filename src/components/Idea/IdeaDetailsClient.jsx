@@ -78,6 +78,22 @@ const IdeaDetailsClient = ({ idea, token, user }) => {
     }
   };
 
+  const handleRemoveComment = (commentId) => {
+    setComments((prev) =>
+      prev.filter((c) => c._id !== commentId)
+    );
+  };
+
+  const handleUpdateComment = (commentId, updatedText) => {
+    setComments((prev) =>
+      prev.map((comment) =>
+        comment._id === commentId
+          ? { ...comment, commentText: updatedText }
+          : comment
+      )
+    );
+  };
+
     return (
       <div className="">
         <div className="">
@@ -272,7 +288,9 @@ const IdeaDetailsClient = ({ idea, token, user }) => {
             ideaId={idea._id}
             comments={comments}
             onAddComment={handleAddComment}
-            isOwner={user}
+            currentUser={user}
+            onDeleteComment={handleRemoveComment}
+            handleUpdateComment={handleUpdateComment }
           />
         </div>
       </div>
