@@ -4,9 +4,7 @@ import { auth } from "./app/lib/auth";
 export async function proxy(request) {
     const { pathname } = request.nextUrl;
 
-    if (pathname === "/ideas") {
-        return NextResponse.next();
-    }
+    if (pathname === "/ideas") return NextResponse.next();
 
     const session = await auth.api.getSession({
         headers: request.headers,
