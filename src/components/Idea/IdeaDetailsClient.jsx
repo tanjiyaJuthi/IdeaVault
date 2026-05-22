@@ -95,9 +95,9 @@ const IdeaDetailsClient = ({ idea, token, user }) => {
   };
 
     return (
-      <div className="">
+      <div className=" px-5 lg:px-0">
         <div className="">
-          <div className="relative overflow-hidden bg-linear-to-r from-white to-[#fff4f8] pt-30 pb-15 px-5">
+          <div className="relative overflow-hidden bg-linear-to-r from-white to-[#fff4f8] pt-30 pb-15">
 
             {isOwner && (
             <div className="max-w-7xl mx-auto px-5 lg:px-0 flex items-center justify-between pb-5">
@@ -171,7 +171,7 @@ const IdeaDetailsClient = ({ idea, token, user }) => {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-5 py-20">
+        <div className="max-w-7xl mx-auto py-20">
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
