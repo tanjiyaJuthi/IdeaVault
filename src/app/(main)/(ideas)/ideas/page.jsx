@@ -6,9 +6,9 @@ import CategoryFilter from "@/components/Idea/Search/CategoryFilter";
 import NoData from "@/components/shared/NoData";
 import FilterByDate from "@/components/Idea/Search/FilterByDate";
 
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { useSearchParams } from "next/navigation";
 
 const IdeaPage = () => {
   const searchParams = useSearchParams();
@@ -22,29 +22,32 @@ const IdeaPage = () => {
   const [loading, setLoading] = useState(false);
 
   const fetchIdeas = useCallback(async () => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const queryString = searchParams.toString();
+    const params = new URLSearchParams({
+      search,
+      category,
+      startDate,
+      endDate,
+    });
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/idea/search?${queryString}`
-      );
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/idea/search?${params.toString()}`
+    );
 
-      const data = await res.json();
+    if (!res.ok) throw new Error("API failed");
 
-      if (data.success) {
-        setIdeas(data.data);
-      } else {
-        setIdeas([]);
-      }
-    } catch (err) {
-      console.error("Failed to fetch ideas:", err);
-      setIdeas([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [searchParams]);
+    const data = await res.json();
+
+    setIdeas(data?.data || []);
+  } catch (err) {
+    console.error(err);
+    setIdeas([]);
+  } finally {
+    setLoading(false);
+  }
+}, [search, category, startDate, endDate]);
 
   useEffect(() => {
     fetchIdeas();

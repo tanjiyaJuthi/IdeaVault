@@ -1,12 +1,14 @@
-import { headers } from 'next/headers';
-import { NextResponse } from 'next/server';
-import { auth } from './app/lib/auth';
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
+import { auth } from "./app/lib/auth";
 
 export async function proxy(request) {
     const session = await auth.api.getSession({
-            headers: await headers(),
-        });
-    
+        headers: await headers(),
+    });
+
+    const pathname = request.nextUrl.pathname;
+
     if (!session) {
         return NextResponse.redirect(
             new URL(`/login?redirect=${pathname}`, request.url)
@@ -15,13 +17,12 @@ export async function proxy(request) {
 
     return NextResponse.next();
 }
- 
+
 export const config = {
     matcher: [
         "/add-idea",
-        "/ideas/:path*",
         "/my-ideas",
         "/my-interactions",
-        "/my-profile"   
+        "/my-profile",
     ],
-}
+};
