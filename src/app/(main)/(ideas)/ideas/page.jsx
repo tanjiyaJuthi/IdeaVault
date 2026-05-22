@@ -4,8 +4,11 @@ import IdeaCard from "@/components/Idea/IdeaCard";
 import SearchIdea from "@/components/Idea/Search/SearchIdea";
 import CategoryFilter from "@/components/Idea/Search/CategoryFilter";
 import NoData from "@/components/shared/NoData";
+import FilterByDate from "@/components/Idea/Search/FilterByDate";
+
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const IdeaPage = () => {
   const searchParams = useSearchParams();
@@ -18,77 +21,71 @@ const IdeaPage = () => {
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchIdeas = async () => {
+  /**
+   * FETCH IDEAS (stable + dependency-safe)
+   */
+  const fetchIdeas = useCallback(async () => {
     try {
       setLoading(true);
 
-      const params = new URLSearchParams();
-
-      if (search) params.append("search", search);
-      if (category) params.append("category", category);
-      if (startDate) params.append("startDate", startDate);
-      if (endDate) params.append("endDate", endDate);
+      const queryString = searchParams.toString();
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/idea/search?${params.toString()}`
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/idea/search?${queryString}`
       );
 
       const data = await res.json();
 
       if (data.success) {
         setIdeas(data.data);
+      } else {
+        setIdeas([]);
       }
-
     } catch (err) {
-      console.error(err);
+      console.error("Failed to fetch ideas:", err);
+      setIdeas([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchParams]);
 
   useEffect(() => {
     fetchIdeas();
-  }, [search, category, startDate, endDate]);
+  }, [fetchIdeas, search, category, startDate, endDate]);
 
   return (
-    <div>
-      {/* HERO */}
+    <div className="">
+      {/* HEADER SECTION */}
       <div className="bg-[#fff4f8] rounded-b-full mt-12 mb-20 py-20 px-5">
         <div className="mx-auto max-w-7xl">
-
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-10 ">
             Explore Ideas and find one for you!
           </h2>
 
-          {/* FILTER BAR */}
-          <div className="flex justify-center">
-            <div className="flex h-12 w-200 overflow-hidden rounded-lg border border-gray-300 bg-white">
-
-              <SearchIdea />
-              <div className="w-px bg-gray-300" />
-              <CategoryFilter />
-
-            </div>
-          </div>
-
+          <SearchIdea />
         </div>
       </div>
 
-      {/* GRID */}
       <div className="mx-auto max-w-7xl mb-20 px-5 lg:px-0">
+        <div className="mb-20 grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <CategoryFilter />
 
-        {loading ? (
-          <p>Loading...</p>
-        ) : ideas.length === 0 ? (
-          <NoData />
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            {ideas.map((idea) => (
-              <IdeaCard key={idea._id} idea={idea} />
-            ))}
-          </div>
-        )}
+            <FilterByDate />
+        </div>
 
+        <div className="w-full">
+          {loading ? (
+            <LoadingSpinner />
+          ) : ideas.length === 0 ? (
+            <NoData />
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+              {ideas.map((idea) => (
+                <IdeaCard key={idea._id} idea={idea} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -11,17 +11,6 @@ const googleId = process.env.GOOGLE_CLIENT_ID;
 const googleSecret = process.env.GOOGLE_CLIENT_SECRET;
 
 export const auth = betterAuth({
-    // user: {
-    //     additionalFields: {
-    //         wanderLustRole: {
-    //             type: "string",
-    //             defaultValue: "user",
-    //         },
-    //         slug: {
-    //             type: "string",
-    //         },
-    //     },
-    // },
     emailAndPassword: { 
         enabled: true, 
     },
@@ -35,20 +24,6 @@ export const auth = betterAuth({
             clientSecret: googleSecret,  
         }, 
     },
-    // databaseHooks: {
-    //     user: {
-    //         create: {
-    //             before: async (user) => {
-    //                 return {
-    //                     data: {
-    //                         ...user,
-    //                         slug: generateSlug(user.name),
-    //                     },
-    //                 };
-    //             },
-    //         },
-    //     },
-    // },
     session: {
         cookieCache: {
             enabled: true,

@@ -17,12 +17,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from "@/components/ui/select";
 import { authClient } from "@/app/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const AddIdeaPage = () => {
     const router = useRouter();
     const [submitError, setSubmitError] = useState("");
-
+    const [categories, setCategories] = useState([]);
+    const [loadingCategories, setLoadingCategories] = useState(true);
 
     const form = useForm({
         defaultValues: {
@@ -43,40 +44,59 @@ const AddIdeaPage = () => {
     const onSubmit = async (data) => {
         setSubmitError("");
 
-    try {
-        const payload = {
-            ...data,
-            tags: data.tags
-                ? data.tags.split(",").map((t) => t.trim()).filter(Boolean)
-                : [],
+        try {
+            const payload = {
+                ...data,
+                tags: data.tags
+                    ? data.tags.split(",").map((t) => t.trim()).filter(Boolean)
+                    : [],
+            };
+
+            const { data: tokenData } = await authClient.token();
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/idea`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${tokenData?.token}`,
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const result = await res.json();
+
+            if (!res.ok) {
+                throw new Error(result?.message || "Failed to create idea");
+            }
+
+            router.replace("/my-ideas");
+            router.refresh();
+
+            form.reset();
+        } catch (error) {
+            console.error("Add idea error:", error.message);
+            setSubmitError(error.message || "Something went wrong");
+        }
+    };
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await fetch(
+                    `${process.env.NEXT_PUBLIC_SERVER_URL}/category`
+                );
+
+                const data = await res.json();
+                setCategories(data.data);
+            } catch (err) {
+                console.error("Failed to load categories:", err);
+            } finally {
+                setLoadingCategories(false);
+            }
         };
 
-        const { data: tokenData } = await authClient.token();
-
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/idea`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${tokenData?.token}`,
-            },
-            body: JSON.stringify(payload),
-        });
-
-        const result = await res.json();
-
-        if (!res.ok) {
-            throw new Error(result?.message || "Failed to create idea");
-        }
-
-        router.replace("/my-ideas");
-        router.refresh();
-
-        form.reset();
-    } catch (error) {
-        console.error("Add idea error:", error.message);
-        setSubmitError(error.message || "Something went wrong");
-    }
-};
+        fetchCategories();
+    }, []);
 
     return (
         <div className="">
@@ -166,12 +186,17 @@ const AddIdeaPage = () => {
                                             </FormControl>
 
                                             <SelectContent className="bg-white border-transparent!">
-                                                <SelectItem value="Beach">Beach</SelectItem>
-                                                <SelectItem value="Mountain">Mountain</SelectItem>
-                                                <SelectItem value="City">City</SelectItem>
-                                                <SelectItem value="Adventure">Adventure</SelectItem>
-                                                <SelectItem value="Cultural">Cultural</SelectItem>
-                                                <SelectItem value="Luxury">Luxury</SelectItem>
+                                                {loadingCategories ? (
+                                                    <SelectItem value="loading" disabled>
+                                                        Loading categories...
+                                                    </SelectItem>
+                                                ) : (
+                                                    categories.map((cat) => (
+                                                        <SelectItem key={cat.name} value={cat.name}>
+                                                            {cat.name}
+                                                        </SelectItem>
+                                                    ))
+                                                )}
                                             </SelectContent>
                                         </Select>
 

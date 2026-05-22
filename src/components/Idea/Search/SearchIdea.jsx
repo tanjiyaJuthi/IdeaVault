@@ -31,7 +31,10 @@ const SearchIdea = () => {
   };
 
   return (
-    <div className="flex items-center w-full">
+    <div className="flex justify-center">
+  <div className="h-12 w-full max-w-3xl overflow-hidden rounded-lg border border-gray-300 bg-white">
+    
+    <div className="flex h-full items-stretch w-full">
       <Input
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -40,13 +43,16 @@ const SearchIdea = () => {
         className="h-full flex-1 border-0 rounded-none px-3 focus-visible:ring-0 focus-visible:ring-offset-0"
       />
 
-      {/* <Button
+      <Button
         onClick={applySearch}
-        className="h-full rounded-none px-5 bg-[#590626] text-white hover:bg-slate-900"
+        className="h-full border border-[#590626] rounded-none px-5 bg-[#590626] text-white hover:bg-slate-900"
       >
         Search
-      </Button> */}
+      </Button>
     </div>
+
+  </div>
+</div>
   );
 };
 

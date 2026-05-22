@@ -8,8 +8,6 @@ import { IoArrowForward } from "react-icons/io5"
 const IdeaCard = ({ idea }) => {
   return (
     <Card className="overflow-hidden ring-0 shadow-xs rounded-lg p-0">
-      
-      {/* IMAGE SECTION */}
       <div className="relative w-full h-48 rounded-t-lg overflow-hidden">
         <Image
           src={idea.imageUrl || "/fallback.jpg"}
