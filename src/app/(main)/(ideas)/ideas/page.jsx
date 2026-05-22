@@ -21,9 +21,6 @@ const IdeaPage = () => {
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  /**
-   * FETCH IDEAS (stable + dependency-safe)
-   */
   const fetchIdeas = useCallback(async () => {
     try {
       setLoading(true);
@@ -73,19 +70,24 @@ const IdeaPage = () => {
             <FilterByDate />
         </div>
 
-        <div className="w-full">
-          {loading ? (
-            <LoadingSpinner />
-          ) : ideas.length === 0 ? (
-            <NoData />
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-              {ideas.map((idea) => (
-                <IdeaCard key={idea._id} idea={idea} />
-              ))}
-            </div>
-          )}
-        </div>
+        <div className="relative">
+            {ideas.length > 0 ? (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                {ideas.map((idea) => (
+                  <IdeaCard key={idea._id} idea={idea} />
+                ))}
+              </div>
+            ) : (
+              !loading && <NoData />
+            )}
+
+            {/* Loading overlay (non-blocking) */}
+            {loading && (
+              <div className="absolute inset-0 flex justify-center items-start pt-10 bg-white/40 backdrop-blur-[1px]">
+                <LoadingSpinner />
+              </div>
+            )}
+          </div>
       </div>
     </div>
   );

@@ -4,6 +4,8 @@ import NoData from "@/components/shared/NoData";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+
+// An error occurred in the Server Components render. The specific message is omitted in production builds to avoid leaking sensitive details. A digest property is included on this error instance which may provide additional details about the nature of the error.
 const MyIdeasPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
