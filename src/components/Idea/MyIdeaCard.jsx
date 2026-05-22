@@ -3,79 +3,79 @@ import Link from "next/link";
 import { FaCheckCircle } from "react-icons/fa";
 import { SlEye } from "react-icons/sl";
 
-const MyIdeaCard = ({idea}) => {
+const MyIdeaCard = ({ idea }) => {
   return (
-    <div className="card-wrapper">
-      <div className="border border-gray-200 p-5 mb-10 bg-white transition-all duration-300 card-hover group flex flex-col lg:flex-row gap-4">
+    <div className="mt-10 group bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm transition-all duration-300 flex flex-col lg:flex-row">
 
-        {/* IMAGE */}
-        <div className="relative w-full lg:w-[30vw] h-[30vh] shrink-0 overflow-hidden rounded-lg">
-          <Image
-            src={idea.imageUrl}
-            alt={idea.ideaTitle}
-            className="object-cover w-full h-full"
-            width={100}
-            height={100}
-          />
-        </div>
+      {/* IMAGE */}
+      <div className="relative w-full lg:w-[380px] h-[220px] lg:h-auto overflow-hidden">
+        <Image
+          src={idea.imageUrl}
+          alt={idea.ideaTitle}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      </div>
 
-        {/* CONTENT */}
-        <div className="space-y-4.5 w-full">
+      {/* CONTENT */}
+      <div className="p-6 flex flex-col justify-between w-full gap-5">
 
-          {/* CATEGORY BADGE */}
-          <div className="inline-flex items-center gap-2 py-2 px-3 w-fit bg-sky-100 text-sky-700 rounded-md">
-            <FaCheckCircle /> {idea.category}
+        {/* TOP SECTION */}
+        <div className="space-y-4">
+
+          {/* CATEGORY */}
+          <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-[#fff4f8] text-[#5a0626] text-sm font-medium">
+            <FaCheckCircle className="text-[#5a0626]" />
+            {idea.category}
           </div>
 
           {/* TITLE */}
-          <h3 className="text-2xl font-semibold">
+          <h3 className="text-xl md:text-2xl font-semibold text-gray-900 leading-snug">
             {idea.ideaTitle}
           </h3>
 
           {/* DESCRIPTION */}
-          <p className="text-gray-600 text-sm">
+          <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
             {idea.shortDescription}
           </p>
 
-          {/* META INFO */}
-          <div className="space-y-2 text-gray-600 text-sm">
+          {/* META GRID */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-600">
 
-            <div>
-              <span className="font-medium text-gray-700">
-                Target Audience:
-              </span>{" "}
-              {idea.targetAudience}
+            <div className="bg-gray-50 rounded-lg px-3 py-2">
+              <p className="text-xs text-gray-500">Target Audience:</p>
+              <p className="font-medium text-gray-800">
+                {idea.targetAudience}
+              </p>
             </div>
 
-            <div>
-              <span className="font-medium text-gray-700">
-                Tags:
-              </span>{" "}
-              {idea.tags.join(", ")}
+            <div className="bg-gray-50 rounded-lg px-3 py-2">
+              <p className="text-xs text-gray-500">Tags:</p>
+              <p className="font-medium text-gray-800">
+                {idea.tags.join(", ")}
+              </p>
             </div>
+
+          </div>
+        </div>
+
+        {/* BOTTOM SECTION */}
+        <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+
+          {/* PRICE */}
+          <div className="text-[#5a0627] font-bold text-2xl">
+            ${idea.estimatedBudget}
           </div>
 
-          {/* FOOTER */}
-          <div className="flex items-center justify-between pt-3">
+          {/* ACTION */}
+          <Link
+            href={`/ideas/${idea._id}`}
+            className="inline-flex items-center gap-2 bg-[#5a0627] hover:bg-slate-900 text-white px-4 py-4 rounded-lg text-sm font-medium transition"
+          >
+            <SlEye />
+            View Idea
+          </Link>
 
-            <h5 className="text-3xl font-bold text-sky-500">
-              ${idea.estimatedBudget}
-            </h5>
-
-            <div className="flex items-center gap-3">
-
-              <Link
-                className="bg-sky-500 rounded-none text-white px-3 py-2 inline-flex items-center gap-2"
-                href={`/ideas/${idea.ideaTitle
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")}`}
-              >
-                <SlEye />
-                View
-              </Link>
-
-            </div>
-          </div>
         </div>
       </div>
     </div>

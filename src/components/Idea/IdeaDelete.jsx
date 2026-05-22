@@ -12,8 +12,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { authClient } from "@/app/lib/auth-client";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const IdeaDelete = ({ ideaId, ideaTitle, onSuccess }) => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -38,11 +41,15 @@ const IdeaDelete = ({ ideaId, ideaTitle, onSuccess }) => {
       const result = await res.json();
 
       if (!res.ok) {
-        throw new Error(result?.message || "Failed to delete idea");
+        toast.error(result?.message || "Failed to delete idea");
+      } else {
+        toast.success("Idea deleted successfully!");
       }
 
       onSuccess?.();
       setOpen(false);
+
+      router.push("/ideas");
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {
