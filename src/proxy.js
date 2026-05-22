@@ -1,13 +1,16 @@
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { auth } from "./app/lib/auth";
 
 export async function proxy(request) {
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
+    const { pathname } = request.nextUrl;
 
-    const pathname = request.nextUrl.pathname;
+    if (pathname === "/ideas") {
+        return NextResponse.next();
+    }
+
+    const session = await auth.api.getSession({
+        headers: request.headers,
+    });
 
     if (!session) {
         return NextResponse.redirect(
@@ -20,6 +23,7 @@ export async function proxy(request) {
 
 export const config = {
     matcher: [
+        "/ideas/:path*",
         "/add-idea",
         "/my-ideas",
         "/my-interactions",
