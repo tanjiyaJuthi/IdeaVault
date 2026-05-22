@@ -8,7 +8,7 @@ const MyIdeaCard = ({ idea }) => {
     <div className="mt-10 group bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm transition-all duration-300 flex flex-col lg:flex-row">
 
       {/* IMAGE */}
-      <div className="relative w-full lg:w-[380px] h-[220px] lg:h-auto overflow-hidden">
+      <div className="relative w-full lg:w-95 h-55 lg:h-auto overflow-hidden">
         <Image
           src={idea.imageUrl}
           alt={idea.ideaTitle}

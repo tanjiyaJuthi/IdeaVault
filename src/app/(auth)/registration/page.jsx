@@ -368,17 +368,17 @@ const Registration = () => {
       </section>
 
       {/* Right Panel */}
-      <section className="hidden md:flex flex-1 relative overflow-hidden bg-gradient-to-br from-[#560625] via-rose-950 to-black px-12 lg:px-24 py-16 items-center">
+      <section className="hidden md:flex flex-1 relative overflow-hidden bg-linear-to-br from-[#560625] via-rose-950 to-black px-12 lg:px-24 py-16 items-center">
         {/* Decorative Shapes */}
         <div
-          className="absolute -top-20 -right-20 w-[420px] h-[420px] rounded-full bg-rose-700/20 blur-2xl transition-transform duration-300"
+          className="absolute -top-20 -right-20 w-105 h-105 rounded-full bg-rose-700/20 blur-2xl transition-transform duration-300"
           style={{
             transform: `translate(${translate.x}px, ${translate.y}px)`,
           }}
         />
 
         <div
-          className="absolute -bottom-24 -left-24 w-[300px] h-[300px] rounded-full bg-rose-500/10 blur-2xl transition-transform duration-300"
+          className="absolute -bottom-24 -left-24 w-75 h-75 rounded-full bg-rose-500/10 blur-2xl transition-transform duration-300"
           style={{
             transform: `translate(${-translate.x}px, ${-translate.y}px)`,
           }}
