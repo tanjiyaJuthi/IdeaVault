@@ -6,6 +6,8 @@ import { FaEdit } from "react-icons/fa";
 import CommentDelete from "./CommentDelete";
 import toast from "react-hot-toast";
 import { authClient } from "@/app/lib/auth-client";
+import { Edit3, Trash2 } from "lucide-react";
+import { Button } from "@base-ui/react";
 
 const ShowComment = ({
   comment,
@@ -66,12 +68,12 @@ const ShowComment = ({
 
       {isOwner && (
         <div className="absolute top-3 right-3 flex gap-2">
-          <button
+          <Button
             onClick={() => setIsEditing(!isEditing)}
-            className="text-gray-600 hover:text-black"
+            className="h-10 w-10 rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50"
           >
-            <FaEdit />
-          </button>
+            <Edit3 size={16} />
+          </Button>
 
           <CommentDelete
             commentId={comment._id}

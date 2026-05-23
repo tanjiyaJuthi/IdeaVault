@@ -128,12 +128,14 @@ const IdeaDetailsClient = ({ idea, token, user }) => {
 
               <div className="relative overflow-hidden rounded-lg">
                 <Image
-                  src={idea.imageUrl || "/fallback.jpg"}
-                  alt={idea.ideaTitle}
-                  width={1400}
-                  height={900}
-                  priority
-                  className="w-full h-125 object-cover"
+                  src={
+                    idea?.imageUrl?.startsWith("http" || "https")
+                      ? idea.imageUrl
+                      : "/fallback.jpg"
+                  }
+                  alt={idea?.ideaTitle || "Idea Image"}
+                  fill
+                  className="object-cover"
                 />
               </div>
             </div>

@@ -117,22 +117,12 @@ const Navbar = () => {
                               </div>
 
                               <Link
-                                  href="/profile/edit"
+                                  href="/my-profile"
                                   className="flex gap-2 items-center px-4 py-2 pl-0 text-sm text-gray-700 hover:text-[#810B38]"
                                   onClick={() => setProfileOpen(false)}
                               >
-                                  <AiOutlineEdit /> Edit Profile
+                                  <AiOutlineEdit /> My Profile
                               </Link>
-
-                              <button
-                                  onClick={() => {
-                                      console.log("Delete profile");
-                                      setProfileOpen(false);
-                                  }}
-                                  className="flex gap-2 items-center w-full text-left px-4 pb-2 text-sm text-gray-600 pl-0 hover:text-[#810B38]"
-                              >
-                                  <AiOutlineUserDelete /> Delete Profile
-                              </button>
 
                               <button
                                   onClick={handleLogout}

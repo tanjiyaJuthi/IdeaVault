@@ -25,19 +25,22 @@ const MyInteractions = ({ comments = [] }) => {
           <NoData />
         </div>
       ) : (
-        <div className="max-w-7xl mx-auto px-5 lg:px-0 py-16">
+        <div className="max-w-7xl mx-auto px-5 lg:px-0 pt-6 pb-16">
           {comments.map((item) => (
             <div
               key={item._id}
-              className="group relative bg-white border border-gray-100 rounded-2xl shadow-sm transition-all duration-300 overflow-hidden"
+              className="mt-10 group relative bg-white border border-gray-100 rounded-lg shadow-sm transition-all duration-300 overflow-hidden"
             >
               <div className="p-6 flex gap-4">
                 <div className="relative">
                   <Image
-                    src={item.imageUrl || "/fallback.jpg"}
-                    alt={item.ideaTitle}
-                    width={90}
-                    height={90}
+                    src={
+                      item?.imageUrl?.startsWith("http" || "https")
+                        ? item.imageUrl
+                        : "/fallback.jpg"
+                    }
+                    alt={item?.ideaTitle || "Idea Image"}
+                    fill
                     className="w-20 h-20 rounded-xl object-cover ring-4 ring-gray-50 group-hover:ring-pink-100 transition"
                   />
                 </div>

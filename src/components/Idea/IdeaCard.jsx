@@ -10,11 +10,14 @@ const IdeaCard = ({ idea }) => {
     <Card className="overflow-hidden ring-0 shadow-xs rounded-lg p-0">
       <div className="relative w-full h-48 rounded-t-lg overflow-hidden">
         <Image
-          src={idea.imageUrl || "/fallback.jpg"}
-          alt={idea.ideaTitle}
+          src={
+            idea?.imageUrl?.startsWith("http" || "https")
+              ? idea.imageUrl
+              : "/fallback.jpg"
+          }
+          alt={idea?.ideaTitle || "Idea Image"}
           fill
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, 33vw"
         />
       </div>
 

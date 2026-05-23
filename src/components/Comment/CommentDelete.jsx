@@ -14,6 +14,7 @@ import { useState } from "react";
 import { authClient } from "@/app/lib/auth-client";
 import toast from "react-hot-toast";
 import { RiDeleteBin2Line } from "react-icons/ri";
+import { Trash2 } from "lucide-react";
 
 const CommentDelete = ({ commentId, commentText, onSuccess }) => {
   const [open, setOpen] = useState(false);
@@ -58,9 +59,9 @@ const CommentDelete = ({ commentId, commentText, onSuccess }) => {
     <>
       <Button
         onClick={() => setOpen(true)}
-        className="text-[#590626] hover:text-slate-900"
+        className="h-10 w-10 rounded-lg bg-red-50 text-[#590626] flex items-center justify-center hover:bg-red-100"
       >
-        <RiDeleteBin2Line />
+        <Trash2 size={16} />
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
