@@ -15,6 +15,9 @@ import {
   Sparkles,
 } from "lucide-react";
 import { authClient } from "@/app/lib/auth-client";
+import { Button } from "@base-ui/react";
+import IdeaCard from "@/components/Idea/IdeaCard";
+import ProfileEdit from "@/components/Profile/ProfileEdit";
 
 const tabs = ["Overview", "Ideas", "Comments"];
 
@@ -59,7 +62,7 @@ const MyProfilePage = () => {
   const ideas = profileData?.ideas || [];
   const comments = profileData?.comments || [];
   const latestIdea = ideas?.[0];
-
+  
   return (
     <div className="min-h-screen mt-20">
       <div className="relative overflow-hidden border-b border-gray-200">
@@ -76,10 +79,18 @@ const MyProfilePage = () => {
                   height={130}
                   className="rounded-lg object-cover border-4 border-white shadow-xl"
                 />
-
-                <button className="absolute -bottom-2 -right-2 h-10 w-10 bg-[#590626] text-white rounded-lg flex items-center justify-center shadow-lg hover:scale-105 transition">
-                  <Edit3 size={16} />
-                </button>
+                <ProfileEdit
+                  currentImage={user?.image}
+                  onUpdated={(newUrl) => {
+                    setProfileData((prev) => ({
+                      ...prev,
+                      user: {
+                        ...prev.user,
+                        image: newUrl,
+                      },
+                    }));
+                  }}
+                />
               </div>
 
               <div className="space-y-4 text-center md:text-left">
@@ -156,7 +167,7 @@ const MyProfilePage = () => {
 
         <div className="flex flex-wrap gap-3">
           {tabs.map((tab) => (
-            <button
+            <Button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
@@ -166,12 +177,12 @@ const MyProfilePage = () => {
               }`}
             >
               {tab}
-            </button>
+            </Button>
           ))}
         </div>
 
         {activeTab === "Overview" && latestIdea && (
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="grid lg:grid-cols-3 gap-6 items-stretch">
             <div className="lg:col-span-2 bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
               <div className="relative h-80">
                 <Image
@@ -196,16 +207,6 @@ const MyProfilePage = () => {
                     <h2 className="text-3xl font-bold text-gray-900 mt-4">
                       {latestIdea?.ideaTitle}
                     </h2>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <button className="h-10 w-10 rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition">
-                      <Edit3 size={18} />
-                    </button>
-
-                    <button className="h-10 w-10 rounded-lg bg-red-50 text-[#590626] flex items-center justify-center hover:bg-red-100 transition">
-                      <Trash2 size={18} />
-                    </button>
                   </div>
                 </div>
 
@@ -253,15 +254,15 @@ const MyProfilePage = () => {
               </div>
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm h-fit">
+            <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold text-gray-900">
                   Recent Comments
                 </h3>
 
-                <button className="h-10 w-10 rounded-lg bg-[#590626] text-white flex items-center justify-center">
+                <Button className="h-10 w-10 rounded-lg bg-[#590626] text-white flex items-center justify-center">
                   <Plus size={18} />
-                </button>
+                </Button>
               </div>
 
               <div className="mt-6 space-y-4">
@@ -303,63 +304,10 @@ const MyProfilePage = () => {
         {activeTab === "Ideas" && (
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
             {ideas?.map((idea) => (
-              <div
+              <IdeaCard
                 key={idea?._id}
-                className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
-              >
-                <div className="relative h-56 overflow-hidden">
-                  <Image
-                    src={idea?.imageUrl}
-                    alt={idea?.ideaTitle}
-                    fill
-                    className="object-cover hover:scale-105 transition duration-500"
-                  />
-                </div>
-
-                <div className="p-5 space-y-4">
-
-                  <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-lg bg-purple-50 text-purple-600 text-xs font-medium border border-purple-100">
-                      {idea?.category}
-                    </span>
-
-                    <div className="flex gap-2">
-                      <button className="h-9 w-9 rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50">
-                        <Edit3 size={16} />
-                      </button>
-
-                      <button className="h-9 w-9 rounded-lg bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100">
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900">
-                      {idea?.ideaTitle}
-                    </h3>
-
-                    <p className="text-gray-500 text-sm mt-2 leading-6">
-                      {idea?.shortDescription}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {idea?.tags?.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs border border-gray-200 bg-gray-50 rounded-lg px-3 py-1 text-gray-600"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <button className="w-full bg-[#590626] hover:bg-[#43041d] text-white py-3 rounded-lg font-medium transition">
-                    View Details
-                  </button>
-                </div>
-              </div>
+                idea={idea}
+              />
             ))}
           </div>
         )}
@@ -389,16 +337,6 @@ const MyProfilePage = () => {
                         ).toLocaleString()}
                       </p>
                     </div>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <button className="h-10 w-10 rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50">
-                      <Edit3 size={16} />
-                    </button>
-
-                    <button className="h-10 w-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100">
-                      <Trash2 size={16} />
-                    </button>
                   </div>
                 </div>
               </div>
