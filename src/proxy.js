@@ -1,19 +1,30 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/app/lib/auth";
 
-export async function proxy(request) {
+export function proxy(request) {
+    const token = request.cookies.get("token")?.value;
+
     const { pathname } = request.nextUrl;
 
-    if (pathname.startsWith("/ideas/")) {
-        const session = await auth.api.getSession({
-            headers: request.headers,
-        });
+    // Only protect edit pages
+    const isProtectedIdeaRoute =
+        pathname.startsWith("/ideas/") &&
+        pathname.endsWith("/edit");
 
-        if (!session) {
-            return NextResponse.redirect(
-                new URL(`/login?redirect=${pathname}`, request.url)
-            );
-        }
+    const protectedRoutes = [
+        "/add-idea",
+        "/my-ideas",
+        "/my-interactions",
+        "/my-profile",
+    ];
+
+    const isProtectedRoute =
+        protectedRoutes.includes(pathname) ||
+        isProtectedIdeaRoute;
+
+    if (isProtectedRoute && !token) {
+        return NextResponse.redirect(
+            new URL(`/login?redirect=${pathname}`, request.url)
+        );
     }
 
     return NextResponse.next();
@@ -21,14 +32,14 @@ export async function proxy(request) {
 
 export const config = {
     matcher: [
-        "/ideas/:id",
-        "/ideas/:id/edit",
+        "/ideas/:path*",
         "/add-idea",
         "/my-ideas",
         "/my-interactions",
         "/my-profile",
     ],
 };
+
 
 // import { NextResponse } from "next/server";
 
