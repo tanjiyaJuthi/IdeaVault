@@ -51,10 +51,10 @@ const Navbar = () => {
   const leftNavLinks = [
     { href: "/", label: "Home", icon: Package },
     { href: "/ideas", label: "Ideas", icon: BookOpen },
+    { href: "/categories", label: "Categories", icon: FolderKanban },
     ...(user
       ? [
-          { href: "/add-idea", label: "Add Idea", icon: Users },
-          { href: "/categories", label: "Categories", icon: FolderKanban },
+          { href: "/add-idea", label: "Add Idea", icon: Users }
           { href: "/my-ideas", label: "My Ideas", icon: CreditCard },
           { href: "/my-interactions", label: "My Interactions", icon: Compass },
         ]

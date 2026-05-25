@@ -26,7 +26,6 @@ export const config = {
         "/my-ideas",
         "/my-interactions",
         "/my-profile",
-        "/categories",
     ],
 };
 
