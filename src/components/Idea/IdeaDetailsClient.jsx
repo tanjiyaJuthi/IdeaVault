@@ -15,8 +15,9 @@ import {
 import CommentCard from "@/components/Comment/CommentCard";
 import IdeaDelete from "@/components/Idea/IdeaDelete";
 import toast from "react-hot-toast";
+import RelatedIdeas from "./RelatedIdeas";
 
-const IdeaDetailsClient = ({ idea, token, user }) => {
+const IdeaDetailsClient = ({ idea, token, user}) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -93,6 +94,25 @@ const IdeaDetailsClient = ({ idea, token, user }) => {
       )
     );
   };
+
+  const [ideas, setIdeas] = useState([]);
+  useEffect(() => {
+    const fetchIdeas = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/idea/search`,
+          { cache: "no-store" }
+        );
+
+        const data = await res.json();
+        setIdeas(data?.data || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchIdeas();
+  }, []);
 
     return (
       <div className=" px-5 lg:px-0">
@@ -295,6 +315,11 @@ const IdeaDetailsClient = ({ idea, token, user }) => {
             handleUpdateComment={handleUpdateComment }
           />
         </div>
+
+        <RelatedIdeas 
+          idea={idea}
+          ideas={ideas}
+        />
       </div>
     </div>
   );

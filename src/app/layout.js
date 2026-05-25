@@ -1,6 +1,8 @@
 import { Noto_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const notoSans = Noto_Sans({
   variable: "--font-noto-sans",

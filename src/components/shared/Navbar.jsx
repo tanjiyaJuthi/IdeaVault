@@ -15,6 +15,7 @@ import {
   BookOpen,
   Users,
   CreditCard,
+  FolderKanban,
 } from "lucide-react";
 
 import { AiOutlineUserDelete, AiOutlineEdit } from "react-icons/ai";
@@ -53,6 +54,7 @@ const Navbar = () => {
     ...(user
       ? [
           { href: "/add-idea", label: "Add Idea", icon: Users },
+          { href: "/categories", label: "Categories", icon: FolderKanban },
           { href: "/my-ideas", label: "My Ideas", icon: CreditCard },
           { href: "/my-interactions", label: "My Interactions", icon: Compass },
         ]

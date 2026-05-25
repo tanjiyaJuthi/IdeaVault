@@ -17,11 +17,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from "@/components/ui/select";
 import { authClient } from "@/app/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const AddIdeaPage = () => {
     const router = useRouter();
     const [submitError, setSubmitError] = useState("");
+    const [categories, setCategories] = useState([]);
+    const [loadingCategories, setLoadingCategories] = useState(true);
 
     const form = useForm({
         defaultValues: {
@@ -38,6 +40,25 @@ const AddIdeaPage = () => {
         },
         mode: "onChange",
     });
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/category`
+            );
+
+            const data = await res.json();
+            setCategories(data.data || []);
+            } catch (err) {
+            console.error("Failed to load categories:", err);
+            } finally {
+            setLoadingCategories(false);
+            }
+        };
+
+        fetchCategories();
+        }, []);
 
     const onSubmit = async (data) => {
         setSubmitError("");
@@ -202,13 +223,15 @@ const AddIdeaPage = () => {
                                                 </SelectTrigger>
                                             </FormControl>
 
-                                            <SelectContent className="bg-white border-transparent!">
-                                                <SelectItem value="Beach">Beach</SelectItem>
-                                                <SelectItem value="Mountain">Mountain</SelectItem>
-                                                <SelectItem value="City">City</SelectItem>
-                                                <SelectItem value="Adventure">Adventure</SelectItem>
-                                                <SelectItem value="Cultural">Cultural</SelectItem>
-                                                <SelectItem value="Luxury">Luxury</SelectItem>
+                                            <SelectContent className="bg-white">
+                                                {categories?.map((category, index) => (
+                                                    <SelectItem
+                                                    key={category?._id || `${category?.name}-${index}`}
+                                                    value={String(category?.name)}
+                                                    >
+                                                    {category?.name}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
 
