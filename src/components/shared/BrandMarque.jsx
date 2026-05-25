@@ -29,7 +29,7 @@ const logos = [
 
 const BrandMarquee = () => {
   return (
-    <section className="border-y border-gray-200 bg-background py-10 bg-linear-to-r from-white to-[#fff4f8]">
+    <section className="text-base border-y border-gray-200 bg-background py-10 bg-linear-to-r from-white to-[#fff4f8]">
       <div className="mx-auto max-w-7xl px-5 lg:px-0">
 
         {/* Heading */}

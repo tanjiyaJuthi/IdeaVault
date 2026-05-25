@@ -125,7 +125,7 @@ const AddIdeaPage = () => {
 
             </div>
 
-            <div className="mx-auto max-w-7xl p-10 shadow-sm mb-20 rounded-lg">
+            <div className="text-base mx-auto max-w-7xl p-10 shadow-sm my-20 rounded-lg">
                 {submitError && (
                     <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-600">
                         {submitError}

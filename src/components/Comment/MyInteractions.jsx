@@ -8,7 +8,7 @@ import { formatMonthYear } from "@/app/lib/helper/helper";
 
 const MyInteractions = ({ comments = [], user, token }) => {
   return (
-    <div>
+    <div className="text-base">
       <div className="bg-linear-to-r from-white to-[#fff4f8] relative overflow-hidden pt-32 pb-35">
         {/* CONTENT */}
         <div className="relative z-10 max-w-7xl mx-auto px-5 text-center">

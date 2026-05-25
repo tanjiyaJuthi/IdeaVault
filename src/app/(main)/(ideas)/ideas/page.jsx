@@ -39,7 +39,7 @@ const IdeaPage = async ({ searchParams }) => {
   }
 
   return (
-    <div>
+    <div className="text-base">
       {/* HEADER SECTION */}
       <div className="bg-linear-to-r from-white to-[#fff4f8] relative overflow-hidden pt-32 pb-40">
 
@@ -93,7 +93,7 @@ const IdeaPage = async ({ searchParams }) => {
 
       </div>
 
-      <div className="mx-auto max-w-7xl mb-20 px-5 lg:px-0">
+      <div className="mx-auto max-w-7xl my-20 px-5 lg:px-0">
         <div className="mb-20 grid grid-cols-1 lg:grid-cols-3 gap-6">
           <CategoryFilter />
 

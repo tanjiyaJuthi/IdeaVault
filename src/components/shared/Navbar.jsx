@@ -75,14 +75,14 @@ const Navbar = () => {
   return (
     <>
       {/* HEADER */}
-      <header className="bg-linear-to-r from-white to-[#fff4f8] fixed top-0 left-0 right-0 z-50 h-16 bg-white flex items-center">
+      <header className="bg-linear-to-r from-white to-[#fff4f8] fixed top-0 left-0 right-0 z-50 h-16 bg-white flex items-center uppercase tracking-tight leading-relaxed">
         <div className="max-w-7xl mx-auto flex h-full items-center justify-between px-5 lg:px-0 w-full">
 
           <Link href="/" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#fff4f8] text-[#810B38]">
               <LayoutGrid className="w-5 h-5" />
             </div>
-            <span className="text-2xl font-bold uppercase bg-gradient-to-r from-[#810B38] via-pink-500 to-rose-400 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold uppercase bg-linear-to-r from-[#810B38] via-pink-500 to-rose-400 bg-clip-text text-transparent">
               IdeoNexis
             </span>
           </Link>
@@ -92,7 +92,7 @@ const Navbar = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium hover:text-[#810B38]"
+                className="text-sm font-medium tracking-tight text-zinc-700 hover:text-[#810B38] transition-colors"
               >
                 {item.label}
               </Link>
@@ -106,7 +106,7 @@ const Navbar = () => {
                   <>
                     <button
                       onClick={() => setProfileOpen((p) => !p)}
-                      className="flex items-center gap-1 text-sm font-medium hover:text-[#810B38]"
+                      className="flex items-center gap-1 text-sm font-medium hover:text-[#810B38] uppercase"
                     >
                       {link.label}
                       <ChevronDown className="w-4 h-4" />
@@ -137,7 +137,7 @@ const Navbar = () => {
 
                               <button
                                   onClick={handleLogout}
-                                  className="flex gap-2 items-center w-full text-left px-4 pb-3 text-sm text-gray-600 pl-0 hover:text-[#810B38]"
+                                  className="flex gap-2 items-center w-full text-left px-4 pb-3 text-sm text-gray-600 pl-0 hover:text-[#810B38] uppercase"
                               >
                                   <IoIosLogOut /> Logout
                               </button>
@@ -150,8 +150,8 @@ const Navbar = () => {
                     href={link.href}
                     className={
                       link.primary
-                        ? "bg-[#810B38] text-white px-4 py-3 rounded-lg text-sm"
-                        : "text-sm hover:text-[#810B38] font-semibold"
+                        ? "bg-[#810B38] text-white px-4 py-3 rounded-lg text-sm font-semibold tracking-tight"
+                        : "text-sm font-medium tracking-tight text-zinc-700 hover:text-[#810B38] transition-colors"
                     }
                   >
                     {link.label}
@@ -185,7 +185,7 @@ const Navbar = () => {
             <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#fff4f8] text-[#810B38]">
               <LayoutGrid className="w-5 h-5" />
             </div>
-            <span className="text-2xl font-bold uppercase bg-gradient-to-r from-[#810B38] via-pink-500 to-rose-400 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold uppercase bg-linear-to-r from-[#810B38] via-pink-500 to-rose-400 bg-clip-text text-transparent">
               IdeoNexis
             </span>
           </Link>

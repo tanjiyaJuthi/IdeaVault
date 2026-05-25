@@ -130,14 +130,13 @@ const Registration = () => {
           {/* Logo */}
           <div className="mb-6">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-white text-[#810B38] flex items-center justify-center bg-linear-to-r from-white to-[#fff4f8]">
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#fff4f8] text-[#810B38]">
               <LayoutGrid className="w-5 h-5" />
-              </div>
-
-              <span className="text-2xl font-bold">
+            </div>
+            <span className="text-2xl font-bold uppercase bg-linear-to-r from-[#810B38] via-pink-500 to-rose-400 bg-clip-text text-transparent">
               IdeoNexis
-              </span>
-            </Link>
+            </span>
+          </Link>
           </div>
 
           {/* Header */}
@@ -391,7 +390,7 @@ const Registration = () => {
         {/* Content */}
         <div className="relative z-10 max-w-125">
           <h2 className="text-4xl lg:text-5xl font-bold leading-tight text-white mb-6">
-            Explore upcoming <Link className="text-[#fff4f8]" href="/">IdeoNexis</Link> events
+            Explore upcoming <Link className="text-[#fff4f8] uppercase" href="/">IdeoNexis</Link> events
           </h2>
 
           <p className="text-lg leading-relaxed text-rose-100/90 mb-10">

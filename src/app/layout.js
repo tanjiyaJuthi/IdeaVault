@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${notoSans.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">        
+      <body className="min-h-full flex flex-col text-base">        
         {children}
 
         <Toaster position="top-right" />

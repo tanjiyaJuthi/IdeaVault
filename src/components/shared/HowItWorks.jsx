@@ -68,15 +68,12 @@ const HowItWorks = () => {
           <Card
             key={item.id}
             className="
-              group
-              overflow-hidden
-              rounded-lg
-              !border-0
-              bg-white/70
-              backdrop-blur-xl
+              group overflow-hidden rounded-lg
+              border-0 ring-gray-100 outline-none
+              shadow-none
+              bg-white/70 backdrop-blur-xl
               transition-all duration-500
-              hover:-translate-y-2
-              p-0
+              hover:-translate-y-2 p-0
             "
           >
 
@@ -102,7 +99,7 @@ const HowItWorks = () => {
             </div>
 
             {/* CONTENT */}
-            <CardHeader className="p-8">
+            <CardHeader className="p-8 flex-1">
 
               <CardTitle className="text-2xl font-bold text-[#2b0a18] mb-3">
                 {item.title}
@@ -114,8 +111,8 @@ const HowItWorks = () => {
 
             </CardHeader>
 
-            {/* FOOTER */}
-            <CardFooter className="px-8 pb-8 pt-0">
+            {/* FOOTER (always bottom aligned) */}
+            <CardFooter className="px-8 pb-8 pt-0 mt-auto border-0 ring-0">
 
               <Link
                 href={item.href}

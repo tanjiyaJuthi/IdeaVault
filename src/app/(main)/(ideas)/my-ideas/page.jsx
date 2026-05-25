@@ -86,7 +86,7 @@ const MyIdeasPage = async () => {
 
         </div>
 
-      <div className="max-w-7xl mx-auto mb-20 px-5 lg:px-0">
+      <div className="text-base max-w-7xl mx-auto my-20 px-5 lg:px-0">
         <div className="my-bookings-card-container">
           {ideas?.length > 0 ? (
             ideas.map((idea) => (

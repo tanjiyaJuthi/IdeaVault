@@ -16,6 +16,7 @@ import {
 import Image from "next/image";
 import LoadingSpinner from "./LoadingSpinner";
 import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa";
 
 const FeaturedIdea = () => {
 
@@ -115,18 +116,10 @@ const FeaturedIdea = () => {
   ];
 
   return (
-    <div className="bg-white min-h-screen flex flex-col items-center my-20 px-5 lg:px-0 relative font-sans">
+    <div className="bg-white min-h-screen flex flex-col items-center mt-20 mb-20 px-5 lg:px-0 relative font-sans">
 
       {/* Header */}
-      <header className="w-full max-w-7xl mb-20 text-center">
-        {/* <div className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#fff4f8] border border-pink-100 mb-8">
-          <span className="w-2 h-2 rounded-full bg-[#810B38] animate-pulse"></span>
-
-          <span className="text-sm font-semibold tracking-wide text-[#810B38]">
-            Featured Ideas
-          </span>
-        </div> */}
-
+      <header className="w-full max-w-7xl mb-10 text-center">
         <h1 className="text-5xl md:text-7xl font-black tracking-tight text-[#2b0a18] leading-[1.1]">
           Discover{" "}
           <span className="bg-linear-to-r from-[#810B38] via-pink-500 to-rose-500 bg-clip-text text-transparent">
@@ -134,6 +127,25 @@ const FeaturedIdea = () => {
           </span>
           built for modern founders.
         </h1>
+
+        {!categoryLoading && (
+          <div className="flex flex-wrap justify-center gap-4 mt-10">
+            {categories.map((category) => (
+              <button
+                key={category.name}
+                onClick={() => setActiveTab(category.name)}
+                className={`uppercase px-6 py-3 rounded-lg text-sm font-semibold border transition-all
+                ${
+                  activeTab === category.name
+                    ? "uppercase bg-[#810B38] text-white border-[#810B38] shadow-md"
+                    : "uppercase bg-white text-zinc-700 border-zinc-200 hover:border-[#810B38] hover:text-[#810B38]"
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
+        )}
       </header>
 
       {/* Loading */}
@@ -148,7 +160,7 @@ const FeaturedIdea = () => {
           {primaryItem && (
 
             <section
-              className={`${bgColors[0]} rounded-lg p-8 md:p-12 flex flex-col justify-between min-h-[500px] relative overflow-hidden`}
+              className={`${bgColors[0]} text-base md:text-lg text-zinc-600 leading-relaxed rounded-lg p-8 md:p-12 flex flex-col justify-between min-h-[500px] relative overflow-hidden`}
             >
 
               <div className="relative w-full mb-8">
@@ -203,20 +215,23 @@ const FeaturedIdea = () => {
 
               <div className="mt-auto relative z-30">
 
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
                   {primaryItem.ideaTitle}
                 </h2>
 
-                <p className="text-gray-700 mb-8 max-w-sm leading-relaxed">
-                  {primaryItem.detailedDescription}
+                <p className="text-gray-700 mb-8 leading-relaxed">
+                  {primaryItem.detailedDescription
+                    ?.split(" ")
+                    .slice(0, 15)
+                    .join(" ")}
+                  {primaryItem.detailedDescription?.split(" ").length > 15 && "..."}
                 </p>
-
                 <Link
                   href={`/ideas/${primaryItem._id}`}
                   size="lg"
-                  className="font-bold px-5 border border-gray-400 py-4 rounded-lg hover:bg-slate-900 hover:text-white"
+                  className="font-semibold text-sm flex gap-2 items-center"
                 >
-                  Explore {primaryItem.category}
+                  Explore {primaryItem.category} <FaArrowRight />
                 </Link>
 
               </div>
@@ -225,7 +240,7 @@ const FeaturedIdea = () => {
           )}
 
           {/* Secondary Cards */}
-          <div className="flex flex-col gap-6">
+          <div className="text-base md:text-lg text-zinc-600 leading-relaxed flex flex-col gap-6">
 
             {secondaryItems.map((item, idx) => {
 
@@ -239,27 +254,25 @@ const FeaturedIdea = () => {
                   className={`${cardBgColor} rounded-lg p-8 flex flex-col md:flex-row gap-6 flex-1`}
                 >
 
-                  <div className="flex-1 flex flex-col justify-center items-start">
+                  <div className="space-y-3 flex-1 flex flex-col justify-center items-start">
 
                     <h2 className="text-2xl font-bold text-gray-900 mb-2">
                       {item.ideaTitle}
                     </h2>
 
-                    <p className="text-sm text-gray-700 mb-6 leading-relaxed">
+                    <div className="space-y-3 text-base md:text-lg text-zinc-600 leading-relaxed">
 
-                      {item.shortDescription}
+                      <p> {item.shortDescription}</p>
 
-                      <br />
+                      <p><b>Audience:</b> {item.targetAudience}</p>
 
-                      <b>Audience:</b> {item.targetAudience}
-
-                    </p>
+                    </div>
 
                     <Link
                       href={`/ideas/${item._id}`}
-                      className="px-5 font-bold mt-auto md:mt-0 border border-gray-400 py-4 rounded-lg hover:bg-slate-900 hover:text-white"
+                      className="mt-5 md:mt-0 font-semibold text-sm flex gap-2 items-center"
                     >
-                      Get Started
+                      Get Started <FaArrowRight />
                     </Link>
 
                   </div>

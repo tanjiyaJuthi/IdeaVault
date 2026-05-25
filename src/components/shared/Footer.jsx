@@ -18,7 +18,7 @@ import { GiEternalLove } from "react-icons/gi";
 
 const Footer = () => {
   return (
-    <footer className="w-full relative antialiased font-sans overflow-hidden">
+    <footer className="text-base md:text-lg text-zinc-600 leading-relaxed w-full relative antialiased font-sans overflow-hidden">
 
       {/* ========================= */}
       {/* TOP CTA SECTION */}
@@ -39,8 +39,8 @@ const Footer = () => {
 
             {/* LEFT CONTENT */}
             <div className="lg:w-3/5 text-white">
-              <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-                We believe there's a better way to manage your startup ideas.
+              <h2 className="text-4xl md:text-5xl font-bold leading-relaxed mb-6">
+                We believe there's a better way to manage your startup
               </h2>
 
               <p className="text-zinc-200/80 leading-relaxed max-w-xl text-base">
@@ -59,7 +59,7 @@ const Footer = () => {
                 className="h-14 rounded-xl border border-white/20 bg-white/10 text-white placeholder:text-zinc-300 focus-visible:ring-2 focus-visible:ring-white/40 pl-5"
               />
 
-              <Button className="h-14 rounded-xl bg-white text-[#810B38] hover:bg-zinc-100 font-bold text-base transition-all duration-300">
+              <Button className="text-base md:text-lg leading-relaxed h-14 rounded-xl bg-white text-[#810B38] hover:bg-zinc-100 font-bold transition-all duration-300">
                 Subscribe Now
               </Button>
 
@@ -71,7 +71,7 @@ const Footer = () => {
       {/* ========================= */}
       {/* MAIN FOOTER */}
       {/* ========================= */}
-      <div className="relative bg-[#590626] text-white pt-80 pb-5 overflow-hidden">
+      <div className="text-base md:text-lg eading-relaxed relative bg-[#590626] text-white pt-80 pb-5 overflow-hidden">
 
         {/* CURVED TOP SHAPE */}
         <div className="absolute top-0 left-0 w-full overflow-hidden leading-none">
@@ -94,7 +94,7 @@ const Footer = () => {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#810B38]/20 rounded-full blur-3xl" />
 
         {/* FOOTER CONTENT */}
-        <div className="relative z-10 max-w-7xl mx-auto px-5 lg:px-0">
+        <div className="text-base md:text-lg leading-relaxed relative z-10 max-w-7xl mx-auto px-5 lg:px-0">
 
           {/* GRID */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">
@@ -111,14 +111,14 @@ const Footer = () => {
             </span>
           </Link>
 
-              <p className="text-sm text-zinc-300 leading-relaxed max-w-xs">
+              <p className="text-zinc-300 leading-relaxed max-w-xs text-base">
                 IdeoNexis is a modern startup idea-sharing platform designed
                 for founders, creators, developers, and innovators looking
                 to discover scalable business opportunities.
               </p>
 
               {/* SOCIAL */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 text-base">
 
                 <Link
                   href="#"
@@ -145,12 +145,12 @@ const Footer = () => {
             </div>
 
             {/* PLATFORM */}
-            <div>
+            <div className="">
               <h3 className="text-lg font-bold mb-6">
                 Platform
               </h3>
 
-              <ul className="space-y-4 text-sm text-zinc-300">
+              <ul className="space-y-4 text-zinc-300 text-base">
 
                 <li>
                   <Link
@@ -197,7 +197,7 @@ const Footer = () => {
                 Resources
               </h3>
 
-              <ul className="space-y-4 text-sm text-zinc-300">
+              <ul className="space-y-4 text-base text-zinc-300">
 
                 <li>
                   <Link
@@ -239,18 +239,18 @@ const Footer = () => {
             </div>
 
             {/* CONTACT */}
-            <div>
+            <div className="text-base">
               <h3 className="text-lg font-bold mb-6">
                 Contact
               </h3>
 
               <div className="space-y-4 text-sm text-zinc-300">
 
-                <p>
+                <p className="text-base">
                   hello@IdeoNexis.com
                 </p>
 
-                <p className="leading-relaxed">
+                <p className="text-base leading-relaxed">
                   123 Startup Avenue
                   <br />
                   Innovation Valley
@@ -263,16 +263,16 @@ const Footer = () => {
           </div>
 
           {/* DIVIDER */}
-          <div className="border-t border-white/10 my-5" />
+          <div className="border-t border-white/10 my-5 text-base" />
 
           {/* BOTTOM */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-zinc-400">
 
-            <p>
-              © 2026 IdeoNexis. All rights reserved.
+            <p className="text-base">
+              © 2026 IDEONEXIS All rights reserved.
             </p>
 
-            <p className="flex items-center gap-2">
+            <p className="flex items-center gap-2 text-base">
               Made with
               <GiEternalLove className="text-pink-400" />
               by

@@ -68,7 +68,7 @@ const MyProfilePage = () => {
   console.log(profileData);
   console.log(profileData?.comments);
   return (
-    <div className="bg-linear-to-r from-white to-[#fff4f8] pt-32">
+    <div className="text-base bg-linear-to-r from-white to-[#fff4f8] pt-32">
       <div className=" relative overflow-hidden">
         {/* CONTENT */}
         <div className="relative z-10 max-w-7xl mx-auto px-5 text-center">
@@ -214,8 +214,8 @@ const MyProfilePage = () => {
               onClick={() => setActiveTab(tab)}
               className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                 activeTab === tab
-                  ? "bg-[#590626] text-white shadow-md"
-                  : "bg-white border border-gray-200 text-gray-600 hover:border-[#590626] hover:text-[#590626]"
+                  ? "uppercase bg-[#590626] text-white shadow-md"
+                  : "uppercase bg-white border border-gray-200 text-gray-600 hover:border-[#590626] hover:text-[#590626]"
               }`}
             >
               {tab}
