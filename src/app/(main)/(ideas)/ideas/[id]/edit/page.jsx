@@ -185,15 +185,54 @@ const IdeaEditPage = () => {
 
   return (
     <div className="">
-        <div className="bg-[#fff4f8] rounded-b-full mt-12 mb-20 py-20 px-5">
-            <div className="mx-auto max-w-7xl">
-                <h2 className="text-4xl md:text-5xl font-bold text-center">
-                    Update your Idea and let us know!
-                </h2>
-            </div>
-        </div>
+        <div className="bg-linear-to-r from-white to-[#fff4f8] relative overflow-hidden pt-28 pb-40">
 
-        <div className="mx-auto max-w-7xl p-10 shadow-sm mb-20 rounded-lg">
+            {/* CONTENT */}
+            <div className="relative z-10 max-w-7xl mx-auto px-5 text-center">
+
+                {/* BADGE */}
+                <div className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/70 backdrop-blur-xl border border-pink-100 shadow-md mb-8">
+                <span className="w-2 h-2 rounded-full bg-[#810B38] animate-pulse"></span>
+
+                <span className="text-sm font-semibold tracking-wide text-[#810B38]">
+                    Idea Update Zone
+                </span>
+                </div>
+
+                {/* HEADING */}
+                <h2 className="text-5xl md:text-6xl font-black tracking-tight text-[#2b0a18] leading-[1.1]">
+                Update your{" "}
+                <span className="bg-linear-to-r from-[#810B38] via-pink-500 to-rose-500 bg-clip-text text-transparent">
+                    Idea
+                </span>{" "}
+                and let us know!
+                </h2>
+
+                {/* SUBTEXT */}
+                <p className="mt-6 max-w-2xl mx-auto text-lg leading-relaxed text-zinc-500">
+                Improve, refine, and evolve your idea with feedback from the community.
+                Keep it growing with better insights and collaboration.
+                </p>
+
+            </div>
+
+            {/* MODERN PREMIUM CURVE */}
+            <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+                <svg
+                viewBox="0 0 1440 320"
+                preserveAspectRatio="none"
+                className="relative block w-full h-[200px]"
+                >
+                <path
+                    fill="#fff4f8"
+                    d="M0,64 C180,220 420,260 720,220 C1020,180 1260,40 1440,140 L1440,320 L0,320 Z"
+                />
+                </svg>
+            </div>
+
+            </div>
+
+        <div className="mx-auto max-w-7xl p-10 shadow-sm my-20 rounded-lg">
             {submitError && (
                 <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-600">
                     {submitError}

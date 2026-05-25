@@ -1,16 +1,14 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { IoArrowForward } from "react-icons/io5"
-import { MdFavorite } from "react-icons/md"
-import { GrFavorite } from "react-icons/gr"
-import { useEffect, useState } from "react"
-import { authClient } from "../../app/lib/auth-client"
-import toast from "react-hot-toast"
-import { useFavorites } from "@/context/FavouriteContext"
+import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
+import { IoArrowForward } from "react-icons/io5";
+import { MdFavorite } from "react-icons/md";
+import { GrFavorite } from "react-icons/gr";
+import toast from "react-hot-toast";
+import { authClient } from "../../app/lib/auth-client";
+import { useFavorites } from "@/context/FavouriteContext";
 
 const IdeaCard = ({ idea }) => {
   const { favoriteIds, setFavoriteIds } = useFavorites();
@@ -20,9 +18,7 @@ const IdeaCard = ({ idea }) => {
     const previousFavorites = [...favoriteIds];
 
     if (isFavorite) {
-      setFavoriteIds((prev) =>
-        prev.filter((id) => id !== idea._id)
-      );
+      setFavoriteIds((prev) => prev.filter((id) => id !== idea._id));
     } else {
       setFavoriteIds((prev) => [...prev, idea._id]);
     }
@@ -51,17 +47,25 @@ const IdeaCard = ({ idea }) => {
       } else {
         toast.success("Removed from favorites 💔");
       }
-
     } catch (err) {
       setFavoriteIds(previousFavorites);
-
       toast.error("Something went wrong");
     }
   };
 
   return (
-    <Card className="overflow-hidden ring-0 shadow-xs rounded-lg p-0">
-      <div className="relative w-full h-48 rounded-t-lg overflow-hidden">
+    <Card
+      className="
+        group overflow-hidden rounded-lg
+        border-0 shadow-none
+        bg-white/70 backdrop-blur-xl
+        transition-all duration-500
+        hover:-translate-y-2
+        p-0 ring-gray-100
+      "
+    >
+      {/* IMAGE */}
+      <div className="relative overflow-hidden">
         <Image
           src={
             idea?.imageUrl?.startsWith("http")
@@ -69,44 +73,66 @@ const IdeaCard = ({ idea }) => {
               : "/fallback.jpg"
           }
           alt={idea?.ideaTitle || "Idea Image"}
-          fill
-          className="object-cover"
+          width={1200}
+          height={600}
+          className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
+
+        {/* OVERLAY */}
+        <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
+
+        {/* FAVORITE BUTTON */}
+        <button
+          onClick={handleFavorite}
+          className="
+            absolute top-4 right-4
+            w-10 h-10
+            rounded-xl
+            bg-white/80 backdrop-blur-md
+            flex items-center justify-center
+            shadow-sm
+            transition hover:scale-105
+          "
+        >
+          {isFavorite ? (
+            <MdFavorite className="text-[#810B38] text-xl" />
+          ) : (
+            <GrFavorite className="text-zinc-700 text-xl" />
+          )}
+        </button>
       </div>
 
-      <CardContent className="p-5 pt-0">
-        <h2 className="font-semibold line-clamp-1 text-xl text-gray-700">
+      {/* CONTENT */}
+      <CardContent className="p-6 flex flex-col gap-3">
+        {/* TITLE */}
+        <h2 className="text-xl font-bold text-[#2b0a18] line-clamp-1">
           {idea.ideaTitle}
         </h2>
 
-        <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+        {/* DESCRIPTION */}
+        <p className="text-sm leading-relaxed text-zinc-600 line-clamp-2">
           {idea.shortDescription}
         </p>
 
-        <div className="flex items-center justify-between mt-10">
+        {/* FOOTER */}
+        <div className="flex items-center justify-between mt-6">
           <Link
             href={`/ideas/${idea._id}`}
-            className="flex items-center gap-2 hover:text-[#5a0626] transition"
+            className="
+              inline-flex items-center gap-2
+              text-[#810B38]
+              font-semibold text-sm
+              transition-all duration-300
+              hover:gap-3
+            "
           >
             Know More
-            <IoArrowForward />
+            <IoArrowForward className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleFavorite}
-          >
-            {isFavorite ? (
-              <MdFavorite className="text-2xl text-[#590627]" />
-            ) : (
-              <GrFavorite className="text-2xl" />
-            )}
-          </Button>
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default IdeaCard
+export default IdeaCard;
