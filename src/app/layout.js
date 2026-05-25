@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "IdeaVault",
+  title: "IdeoNexis",
   description: "Startup Idea Sharing Platform",
 };
 

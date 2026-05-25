@@ -105,7 +105,7 @@ const Login = () => {
               </div>
 
               <span className="text-2xl font-bold">
-              IdeaVault
+              IdeoNexis
               </span>
             </Link>
 
@@ -272,7 +272,7 @@ const Login = () => {
         {/* Abstract Asterisk Symbol */}
         <div className="absolute top-20 right-0 opacity-10 select-none pointer-events-none transform -rotate-25">
           <span className="material-symbols-outlined text-[200px] font-bold text-[#ff88a3]">
-            IdeaVault
+            IdeoNexis
           </span>
         </div>
 

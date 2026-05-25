@@ -19,6 +19,7 @@ import {
 
 import { AiOutlineUserDelete, AiOutlineEdit } from "react-icons/ai";
 import { IoIosLogOut } from "react-icons/io";
+import { GrFavorite } from "react-icons/gr";
 
 const Navbar = () => {
   const { data: session, isPending } = authClient.useSession();
@@ -74,14 +75,16 @@ const Navbar = () => {
   return (
     <>
       {/* HEADER */}
-      <header className="bg-linear-to-r from-white to-[#fff4f8] fixed top-0 left-0 right-0 z-50 h-16 bg-white border-b border-gray-100 flex items-center">
+      <header className="bg-linear-to-r from-white to-[#fff4f8] fixed top-0 left-0 right-0 z-50 h-16 bg-white flex items-center">
         <div className="max-w-7xl mx-auto flex h-full items-center justify-between px-5 lg:px-0 w-full">
 
           <Link href="/" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#fff4f8] text-[#810B38]">
               <LayoutGrid className="w-5 h-5" />
             </div>
-            <span className="text-2xl font-bold">IdeaVault</span>
+            <span className="text-2xl font-bold uppercase bg-gradient-to-r from-[#810B38] via-pink-500 to-rose-400 bg-clip-text text-transparent">
+              IdeoNexis
+            </span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8">
@@ -122,6 +125,14 @@ const Navbar = () => {
                                   onClick={() => setProfileOpen(false)}
                               >
                                   <AiOutlineEdit /> My Profile
+                              </Link>
+
+                              <Link
+                                  href="/my-profile/favourite"
+                                  className="flex gap-2 items-center px-4 pt-1 pb-2 pl-0 text-sm text-gray-700 hover:text-[#810B38]"
+                                  onClick={() => setProfileOpen(false)}
+                              >
+                                  <GrFavorite /> My Favourite
                               </Link>
 
                               <button
@@ -170,14 +181,14 @@ const Navbar = () => {
         isMenuOpen ? "bg-linear-to-r from-white to-[#fff4f8] translate-x-0" : "bg-white  translate-x-full"}`}
       >
           <div className="mb-6 flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center overflow-hidden  bg-primary text-on-primary">
-                      <LayoutGrid className="h-5 w-5" />
-                  </div>
-                  <span className="text-2xl font-bold text-primary">
-                      IdeaVault
-                  </span>
-              </Link>
+              <Link href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#fff4f8] text-[#810B38]">
+              <LayoutGrid className="w-5 h-5" />
+            </div>
+            <span className="text-2xl font-bold uppercase bg-gradient-to-r from-[#810B38] via-pink-500 to-rose-400 bg-clip-text text-transparent">
+              IdeoNexis
+            </span>
+          </Link>
 
               <button
                   onClick={toggleMenu}

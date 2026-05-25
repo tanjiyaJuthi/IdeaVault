@@ -21,7 +21,7 @@ const NotFound = () => {
         <div className="mt-8">
           <Link
             href="/"
-            className="px-4 py-2 rounded-none bg-white text-[#590626] font-semibold hover:scale-105 transition duration-300 border border-[#590626] hover:bg-slate-900 hover:text-white"
+            className="px-5 py-4 rounded-none bg-white text-[#590626] font-semibold hover:scale-105 transition duration-300 border border-[#590626] hover:bg-slate-900 hover:text-white"
           >
             Go Home
           </Link>

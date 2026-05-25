@@ -15,6 +15,7 @@ import {
 
 import Image from "next/image";
 import LoadingSpinner from "./LoadingSpinner";
+import Link from "next/link";
 
 const FeaturedIdea = () => {
 
@@ -114,48 +115,25 @@ const FeaturedIdea = () => {
   ];
 
   return (
-    <div className="bg-white min-h-screen flex flex-col items-center mt-20 mb-5 px-5 lg:px-0 relative font-sans">
+    <div className="bg-white min-h-screen flex flex-col items-center my-20 px-5 lg:px-0 relative font-sans">
 
       {/* Header */}
-      <header className="w-full max-w-7xl mb-12 text-center">
+      <header className="w-full max-w-7xl mb-20 text-center">
+        {/* <div className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#fff4f8] border border-pink-100 mb-8">
+          <span className="w-2 h-2 rounded-full bg-[#810B38] animate-pulse"></span>
 
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 tracking-tight">
-          Want popular ideas for your business?
+          <span className="text-sm font-semibold tracking-wide text-[#810B38]">
+            Featured Ideas
+          </span>
+        </div> */}
+
+        <h1 className="text-5xl md:text-7xl font-black tracking-tight text-[#2b0a18] leading-[1.1]">
+          Discover{" "}
+          <span className="bg-linear-to-r from-[#810B38] via-pink-500 to-rose-500 bg-clip-text text-transparent">
+            startup ideas
+          </span>
+          built for modern founders.
         </h1>
-
-        {/* Category Loading */}
-        {categoryLoading && <LoadingSpinner />}
-
-        {/* Tabs */}
-        {!categoryLoading && (
-          <nav className="flex flex-wrap justify-center items-center gap-4">
-
-            {categories.map((category) => (
-
-              <Button
-                key={category.name}
-                onClick={() =>
-                  setActiveTab(category.name)
-                }
-                className={`px-10 h-12 rounded-lg font-medium transition-all ${
-                  activeTab === category.name
-                    ? "bg-[#570625] text-white hover:bg-[#570625]"
-                    : "border-gray-300 text-gray-700 hover:text-[#570625] hover:border-[#570625] hover:bg-transparent"
-                }`}
-                variant={
-                  activeTab === category.name
-                    ? "default"
-                    : "outline"
-                }
-              >
-                {category.name}
-              </Button>
-
-            ))}
-
-          </nav>
-        )}
-
       </header>
 
       {/* Loading */}
@@ -233,12 +211,13 @@ const FeaturedIdea = () => {
                   {primaryItem.detailedDescription}
                 </p>
 
-                <Button
+                <Link
+                  href={`/ideas/${primaryItem._id}`}
                   size="lg"
-                  className="font-bold px-8"
+                  className="font-bold px-5 border border-gray-400 py-4 rounded-lg hover:bg-slate-900 hover:text-white"
                 >
                   Explore {primaryItem.category}
-                </Button>
+                </Link>
 
               </div>
 
@@ -276,9 +255,12 @@ const FeaturedIdea = () => {
 
                     </p>
 
-                    <Button className="font-bold mt-auto md:mt-0">
+                    <Link
+                      href={`/ideas/${item._id}`}
+                      className="px-5 font-bold mt-auto md:mt-0 border border-gray-400 py-4 rounded-lg hover:bg-slate-900 hover:text-white"
+                    >
                       Get Started
-                    </Button>
+                    </Link>
 
                   </div>
 

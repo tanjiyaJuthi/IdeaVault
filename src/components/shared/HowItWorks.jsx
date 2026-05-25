@@ -39,47 +39,108 @@ const howItWorksData = [
 const HowItWorks = () => {
   
   return (
-    <section className="px-5 lg:px-0 my-20 font-inter">
-      <div className="mx-auto max-w-7xl ">
-        <div className="text-center mb-10">
-            <h2 className="text-4xl lg:text-5xl font-noto-sans font-bold text-gray-900">
-                We want you to know how it works!
-            </h2>
+      <section className="relative py-20 px-5 lg:px-0 overflow-hidden">
+    <div className="relative z-10 mx-auto max-w-7xl">
 
-            <p className="mt-5 text-base text-gray-600 max-w-2xl mx-auto">
-               A simple 3-step process designed to help you share your ideas with ease, collaborate with a community of like-minded people, gather meaningful feedback, and gradually transform your concepts into real-world projects that can grow, evolve, and make an impact.
-            </p>
-        </div>
+      {/* HEADER */}
+      <div className="text-center mb-20">
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {howItWorksData.map((item) => (
-            <Card
-                key={item.id}
-                className="overflow-hidden border-0 !border-0 ring-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl rounded-lg"
-            >
-                <Image
+        {/* TITLE */}
+        <h2 className="text-5xl md:text-7xl font-black tracking-tight text-[#2b0a18] leading-[1.1]">
+
+          Turn your{" "}
+
+          <span className="bg-linear-to-r from-[#810B38] via-pink-500 to-rose-500 bg-clip-text text-transparent">
+            ideas
+          </span>
+
+          {" "}into reality.
+
+        </h2>
+
+      </div>
+
+      {/* CARDS */}
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+        {howItWorksData.map((item, index) => (
+
+          <Card
+            key={item.id}
+            className="
+              group
+              overflow-hidden
+              rounded-lg
+              !border-0
+              bg-white/70
+              backdrop-blur-xl
+              transition-all duration-500
+              hover:-translate-y-2
+              p-0
+            "
+          >
+
+            {/* IMAGE */}
+            <div className="relative overflow-hidden">
+
+              <Image
                 src={item.image}
                 alt={item.title}
                 width={1200}
                 height={600}
-                className="h-44 w-full object-cover transition-transform duration-300 hover:scale-105"
-                />
+                className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
 
-                <CardHeader className="text-gray-800">
-                    <CardTitle className="text-lg">{item.title}</CardTitle>
-                    <CardDescription>{item.description}</CardDescription>
-                </CardHeader>
+              {/* OVERLAY */}
+              <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
 
-                <CardFooter className="border-0 font-bold text-gray-500">
-                    <Link href={item.href}  className="w-full flex items-center gap-2">
-                        Explore <IoArrowForward />
-                    </Link >
-                </CardFooter>
-            </Card>
-            ))}
-        </div>
+              {/* STEP NUMBER */}
+              <div className="absolute top-5 left-5 w-10 h-10 rounded-xl bg-white/90 backdrop-blur-md flex items-center justify-center font-bold text-[#810B38] shadow-sm">
+                0{index + 1}
+              </div>
+
+            </div>
+
+            {/* CONTENT */}
+            <CardHeader className="p-8">
+
+              <CardTitle className="text-2xl font-bold text-[#2b0a18] mb-3">
+                {item.title}
+              </CardTitle>
+
+              <CardDescription className="text-base leading-relaxed text-zinc-600">
+                {item.description}
+              </CardDescription>
+
+            </CardHeader>
+
+            {/* FOOTER */}
+            <CardFooter className="px-8 pb-8 pt-0">
+
+              <Link
+                href={item.href}
+                className="
+                  inline-flex items-center gap-2
+                  text-[#810B38]
+                  font-semibold
+                  transition-all duration-300
+                  hover:gap-3
+                "
+              >
+                Explore Step
+
+                <IoArrowForward className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+
+            </CardFooter>
+
+          </Card>
+
+        ))}
+
       </div>
-    </section>
+    </div>
+  </section>
   )
 }
 

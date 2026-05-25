@@ -58,17 +58,46 @@ const MyProfilePage = () => {
 
   if (loading) return <LoadingSpinner />;
 
-  const user = profileData?.user;
+  const user = profileData?.user || [];
   const ideas = profileData?.ideas || [];
   const comments = profileData?.comments || [];
+  const favorites = profileData?.favorites || [];
+  
   const latestIdea = ideas?.[0];
   
+  console.log(profileData);
+  console.log(profileData?.comments);
   return (
-    <div className="min-h-screen mt-20">
-      <div className="relative overflow-hidden border-b border-gray-200">
-        <div className="absolute inset-0" />
+    <div className="bg-linear-to-r from-white to-[#fff4f8] pt-32">
+      <div className=" relative overflow-hidden">
+        {/* CONTENT */}
+        <div className="relative z-10 max-w-7xl mx-auto px-5 text-center">
 
-        <div className="max-w-7xl mx-auto px-5 lg:px-0 relative z-10 py-16">
+          {/* BADGE */}
+          <div className="inline-flex items-center gap-2 px-5 py-4 rounded-lg bg-white/70 backdrop-blur-xl border border-purple-100 shadow-md mb-8">
+            <span className="w-2 h-2 rounded-lg bg-[#810B38] animate-pulse"></span>
+
+            <span className="text-sm font-semibold tracking-wide text-[#810B38]">
+              Your Profile
+            </span>
+          </div>
+
+          {/* HEADING */}
+          <h2 className="text-5xl md:text-7xl font-black tracking-tight text-[#2b0a18] leading-[1.1]">
+            Manage your{" "}
+            <span className="bg-linear-to-r from-[#810B38] via-pink-500 to-rose-500 bg-clip-text text-transparent">
+              personal space
+            </span>
+            !
+          </h2>
+
+          {/* SUBTEXT */}
+          <p className="mt-6 max-w-2xl mx-auto text-lg leading-relaxed text-zinc-500">
+            View and update your details, track your activity, and manage everything you’ve created in one place.
+          </p>
+
+        </div>
+        <div className="max-w-7xl mx-auto px-5 lg:px-0 relative z-10 mt-20 mb-30">
           <div className="grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-8 flex flex-col md:flex-row gap-6 items-center md:items-center">
               <div className="relative">
@@ -121,7 +150,7 @@ const MyProfilePage = () => {
 
             <div className="lg:col-span-4 flex justify-center lg:justify-end">
               <Link
-                href={`${process.env.BETTER_AUTH_URL}/add-idea`}
+                href="/add-idea"
                 className="flex items-center gap-2 bg-[#590626] hover:bg-[#43041d] text-white px-6 py-3.5 rounded-lg font-medium shadow-lg transition-all duration-200"
               >
                 <Plus size={18} />
@@ -129,6 +158,19 @@ const MyProfilePage = () => {
               </Link>
             </div>
           </div>
+        </div>
+        {/* MODERN CURVE */}
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+          <svg
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+            className="relative block w-full h-[220px]"
+          >
+            <path
+              fill="#fff4f8"
+              d="M0,64 C180,220 420,260 720,220 C1020,180 1260,40 1440,140 L1440,320 L0,320 Z"
+            />
+          </svg>
         </div>
       </div>
 
@@ -140,7 +182,7 @@ const MyProfilePage = () => {
             </p>
 
             <h2 className="text-4xl font-bold text-gray-900 mt-3">
-              {ideas.length}
+              {ideas?.length || 0}
             </h2>
           </div>
 
@@ -150,7 +192,7 @@ const MyProfilePage = () => {
             </p>
 
             <h2 className="text-4xl font-bold text-gray-900 mt-3">
-              {comments.length}
+              {comments?.length || 0}
             </h2>
           </div>
 
@@ -313,7 +355,7 @@ const MyProfilePage = () => {
         )}
 
         {activeTab === "Comments" && (
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {comments?.map((comment) => (
               <div
                 key={comment?._id}

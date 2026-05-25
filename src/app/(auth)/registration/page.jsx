@@ -135,7 +135,7 @@ const Registration = () => {
               </div>
 
               <span className="text-2xl font-bold">
-              IdeaVault
+              IdeoNexis
               </span>
             </Link>
           </div>
@@ -391,7 +391,7 @@ const Registration = () => {
         {/* Content */}
         <div className="relative z-10 max-w-125">
           <h2 className="text-4xl lg:text-5xl font-bold leading-tight text-white mb-6">
-            Explore upcoming <Link className="text-[#fff4f8]" href="/">IdeaVault</Link> events
+            Explore upcoming <Link className="text-[#fff4f8]" href="/">IdeoNexis</Link> events
           </h2>
 
           <p className="text-lg leading-relaxed text-rose-100/90 mb-10">

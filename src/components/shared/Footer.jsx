@@ -44,7 +44,7 @@ const Footer = () => {
               </h2>
 
               <p className="text-zinc-200/80 leading-relaxed max-w-xl text-base">
-                Stay connected with IdeaVault. Get startup inspiration,
+                Stay connected with IdeoNexis. Get startup inspiration,
                 product-building insights, new templates, investor tips,
                 and curated innovation ideas delivered directly to your inbox.
               </p>
@@ -103,18 +103,16 @@ const Footer = () => {
             <div className="flex flex-col gap-6">
 
               <Link href="/" className="flex items-center gap-3">
-
-                <div className="w-10 h-10 rounded-xl bg-white text-[#810B38] flex items-center justify-center bg-linear-to-r from-white to-[#fff4f8]">
-                <LayoutGrid className="w-5 h-5" />
-                </div>
-
-                <span className="text-2xl font-bold">
-                IdeaVault
-                </span>
-            </Link>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#fff4f8] text-[#810B38]">
+              <LayoutGrid className="w-5 h-5" />
+            </div>
+            <span className="text-2xl font-bold uppercase bg-gradient-to-r from-[#810B38] via-pink-500 to-rose-400 bg-clip-text text-transparent">
+              IdeoNexis
+            </span>
+          </Link>
 
               <p className="text-sm text-zinc-300 leading-relaxed max-w-xs">
-                IdeaVault is a modern startup idea-sharing platform designed
+                IdeoNexis is a modern startup idea-sharing platform designed
                 for founders, creators, developers, and innovators looking
                 to discover scalable business opportunities.
               </p>
@@ -249,7 +247,7 @@ const Footer = () => {
               <div className="space-y-4 text-sm text-zinc-300">
 
                 <p>
-                  hello@ideavault.com
+                  hello@IdeoNexis.com
                 </p>
 
                 <p className="leading-relaxed">
@@ -271,7 +269,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-zinc-400">
 
             <p>
-              © 2026 IdeaVault. All rights reserved.
+              © 2026 IdeoNexis. All rights reserved.
             </p>
 
             <p className="flex items-center gap-2">
